@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
+import { MySelect } from '../components/my-select/my-select';
 import { useGetLockersQuery } from '../store/market-api/market-api';
 
 const PlaceOrderPage: FC = () => {
-  const { data } = useGetLockersQuery();
-  console.log(data && data[0]);
+  const { data: lockers } = useGetLockersQuery();
 
-  return <div>place-order</div>;
+  return lockers ? <MySelect options={lockers} /> : <div>Loading...</div>;
 };
 
 export { PlaceOrderPage };
