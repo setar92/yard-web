@@ -1,11 +1,7 @@
-import { MapPage } from './pages';
+import { FC } from 'react';
 
-function App() {
-  return (
-    <div>
-      <MapPage></MapPage>
-    </div>
-  );
-}
+const App: FC = () => {
+  return <div>init</div>;
+};
 
-export default App;
+export { App };
