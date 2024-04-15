@@ -21,5 +21,4 @@ export const marketApi = createApi({
     }),
   }),
 });
-
 export const { useGetLockersQuery } = marketApi;
