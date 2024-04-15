@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 
-import { PhoneNumberInputForm } from '../components';
-
-const LogInPage: React.FC = () => {
+import { theme } from '../../common/theme/theme';
+export const Loader: React.FC = () => {
   return (
     <Box
       sx={{
@@ -15,9 +14,11 @@ const LogInPage: React.FC = () => {
         height: '100vh', // Adjust height as needed
       }}
     >
-      <PhoneNumberInputForm />
+      <CircularProgress
+        sx={{
+          color: theme.palette.primary.main,
+        }}
+      />
     </Box>
   );
 };
-
-export { LogInPage };
