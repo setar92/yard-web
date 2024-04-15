@@ -13,7 +13,6 @@ const PhoneNumberInputForm: React.FC = () => {
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [sendSms, { isLoading }] = useSendSmsMutation();
 
-  // Обробник для зміни номеру телефону
   const handlePhoneNumberChange = (value: string): void => {
     if (value.length > 10) {
       setDisableSubmit(false);
@@ -23,12 +22,9 @@ const PhoneNumberInputForm: React.FC = () => {
     setPhoneNumber(value);
   };
 
-  // Обробник для відправки форми
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault(); // Зупиняємо стандартну поведінку форми
+    event.preventDefault();
     sendSms({ phone: phoneNumber, type: AccountType.Business });
-    // Тут можна додати логіку для відправки номеру телефону
-    console.log('Submitted phone number:', phoneNumber);
   };
 
   if (isLoading) {
