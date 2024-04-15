@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 
 import { PhoneNumberInputForm } from '../components';
 import { useGetLockersQuery } from '../store/market-api/market-api';
 
 const PlaceOrderPage: FC = () => {
   const { data: lockers } = useGetLockersQuery();
-  if (!lockers) return <div>Loading...</div>;
+  if (!lockers) return <CircularProgress color="primary" />;
 
   return (
     <Box
