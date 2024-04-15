@@ -1,6 +1,10 @@
 import { AccountType, FormType } from '../enums/user-auth.enum';
 
-interface AuthResponse {
+interface SendCodeResponse {
+  message: string;
+}
+
+interface VerifyCodeResponse {
   message: string;
   data: {
     token_type: string;
@@ -15,4 +19,16 @@ interface SendSmsQuery {
   type: AccountType;
 }
 
-export type { AuthResponse, SendSmsQuery, AccountType };
+interface VerifyCodeQuery {
+  phone: string;
+  type: AccountType;
+  code: string;
+}
+
+export type {
+  SendCodeResponse,
+  SendSmsQuery,
+  AccountType,
+  VerifyCodeResponse,
+  VerifyCodeQuery,
+};

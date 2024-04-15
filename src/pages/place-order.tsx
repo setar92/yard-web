@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 
 import { Box, CircularProgress } from '@mui/material';
 
-import { PhoneNumberInputForm } from '../components';
 import { useGetLockersQuery } from '../store/market-api/market-api';
 
 const PlaceOrderPage: FC = () => {
@@ -19,7 +18,7 @@ const PlaceOrderPage: FC = () => {
         height: '100vh', // Adjust height as needed
       }}
     >
-      <PhoneNumberInputForm />
+      main page
     </Box>
   );
 };

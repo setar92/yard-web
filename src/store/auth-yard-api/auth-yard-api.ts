@@ -1,7 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { UserAuthPaths } from '../../common/enums';
-import { AuthResponse, SendSmsQuery } from '../../common/types';
+import {
+  VerifyCodeQuery,
+  VerifyCodeResponse,
+  SendCodeResponse,
+  SendSmsQuery,
+} from '../../common/types';
 import { RootState } from '../store';
 
 export const authYARDApi = createApi({
@@ -20,14 +25,22 @@ export const authYARDApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    sendSms: builder.mutation<AuthResponse, SendSmsQuery>({
+    sendSms: builder.mutation<SendCodeResponse, SendSmsQuery>({
       query: ({ phone, type }) => ({
         url: UserAuthPaths.SEND_SMS,
         method: 'POST',
         params: { phone, type },
       }),
     }),
+
+    verifyCode: builder.mutation<VerifyCodeResponse, VerifyCodeQuery>({
+      query: ({ phone, type, code }) => ({
+        url: UserAuthPaths.VERIFY_SMS,
+        method: 'POST',
+        params: { phone, type, code },
+      }),
+    }),
   }),
 });
 
-export const { useSendSmsMutation } = authYARDApi;
+export const { useSendSmsMutation, useVerifyCodeMutation } = authYARDApi;

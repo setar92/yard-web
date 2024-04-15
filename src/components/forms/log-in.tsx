@@ -1,20 +1,29 @@
 import React, { useState, ChangeEvent } from 'react';
 import PhoneInput from 'react-phone-input-2';
-
 import 'react-phone-input-2/lib/style.css'; // Стилізація для react-phone-input-2
+import { useDispatch } from 'react-redux';
+
 import { Button, TextField } from '@mui/material'; // Імпорт компонентів з Material-UI
 
-import { AccountType } from '../../common/enums';
+import { AccountType, StorageKey } from '../../common/enums';
 import { theme } from '../../common/theme/theme';
 import { Loader } from '../../components';
-import { useSendSmsMutation } from '../../store/auth-yard-api/auth-yard-api';
+import { setCredentials } from '../../store/auth/slice';
+import {
+  useSendSmsMutation,
+  useVerifyCodeMutation,
+} from '../../store/auth-yard-api/auth-yard-api';
 
 const PhoneNumberInputForm: React.FC = () => {
+  const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(true);
-  const [sendSms, { isLoading }] = useSendSmsMutation();
-  const isSuccess = true;
+  const [sendSms, { isLoading, isSuccess }] = useSendSmsMutation();
+  const [verifyCode, { data: verifyCodeData, isLoading: fetchCodeLoading }] =
+    useVerifyCodeMutation();
+
   const [smsCode, setSmsCode] = useState('');
+  // const isSuccess = true;
 
   const handlePhoneNumberChange = (value: string): void => {
     if (value.length > 10) {
@@ -39,21 +48,28 @@ const PhoneNumberInputForm: React.FC = () => {
     sendSms({ phone: phoneNumber, type: AccountType.Business });
   };
 
-  if (isLoading) {
+  const handleVerifyCode = async (): Promise<void> => {
+    await verifyCode({
+      phone: phoneNumber,
+      type: AccountType.Business,
+      code: smsCode,
+    });
+    if (verifyCodeData) {
+      const token = verifyCodeData.data.access_token;
+      localStorage.setItem(StorageKey.TOKEN, token);
+      dispatch(setCredentials({ token }));
+    }
+  };
+
+  if (isLoading || fetchCodeLoading) {
     return <Loader />;
   }
 
   return (
     <form onSubmit={handleSubmit} style={{ width: '300px' }}>
-      <h2 style={{ marginBottom: '10px' }}>Enter your phone number:</h2>
-      <PhoneInput
-        country={'lv'}
-        value={phoneNumber}
-        onChange={handlePhoneNumberChange}
-        autocompleteSearch={true}
-      />
       {isSuccess ? (
         <>
+          <h2 style={{ marginBottom: '10px' }}>Enter code:</h2>
           <TextField
             placeholder="* * * *"
             fullWidth
@@ -83,24 +99,34 @@ const PhoneNumberInputForm: React.FC = () => {
               backgroundColor: theme.palette.primary.main,
             }}
             disabled={!(smsCode.length === 4)}
+            onClick={handleVerifyCode}
           >
             Confirm
           </Button>
         </>
       ) : (
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{
-            my: 2,
-            width: '100%',
-            backgroundColor: theme.palette.primary.main,
-          }}
-          disabled={disableSubmit}
-        >
-          Get the code
-        </Button>
+        <>
+          <h2 style={{ marginBottom: '10px' }}>Enter your phone number:</h2>
+          <PhoneInput
+            country={'lv'}
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+            autocompleteSearch={true}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{
+              my: 2,
+              width: '100%',
+              backgroundColor: theme.palette.primary.main,
+            }}
+            disabled={disableSubmit}
+          >
+            Get the code
+          </Button>
+        </>
       )}
     </form>
   );
