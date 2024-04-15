@@ -2,10 +2,11 @@ import React, { useState, ChangeEvent } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'; // Стилізація для react-phone-input-2
 import { useDispatch } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
 
 import { Button, TextField } from '@mui/material'; // Імпорт компонентів з Material-UI
 
-import { AccountType, StorageKey } from '../../common/enums';
+import { AccountType, AppRoute, StorageKey } from '../../common/enums';
 import { theme } from '../../common/theme/theme';
 import { Loader } from '../../components';
 import { setCredentials } from '../../store/auth/slice';
@@ -16,14 +17,20 @@ import {
 
 const PhoneNumberInputForm: React.FC = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [sendSms, { isLoading, isSuccess }] = useSendSmsMutation();
-  const [verifyCode, { data: verifyCodeData, isLoading: fetchCodeLoading }] =
-    useVerifyCodeMutation();
+  const [
+    verifyCode,
+    {
+      data: verifyCodeData,
+      isLoading: CheckCodeLoading,
+      isSuccess: CheckCodeSuccess,
+    },
+  ] = useVerifyCodeMutation();
 
   const [smsCode, setSmsCode] = useState('');
-  // const isSuccess = true;
 
   const handlePhoneNumberChange = (value: string): void => {
     if (value.length > 10) {
@@ -61,8 +68,12 @@ const PhoneNumberInputForm: React.FC = () => {
     }
   };
 
-  if (isLoading || fetchCodeLoading) {
+  if (isLoading || CheckCodeLoading) {
     return <Loader />;
+  }
+
+  if (CheckCodeSuccess) {
+    return <Navigate to={AppRoute.ROOT} replace state={{ from: location }} />;
   }
 
   return (
