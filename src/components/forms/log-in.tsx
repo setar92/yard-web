@@ -1,33 +1,26 @@
 import React, { useState, ChangeEvent } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'; // Стилізація для react-phone-input-2
-import { useDispatch } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { Button, TextField } from '@mui/material'; // Імпорт компонентів з Material-UI
 
-import { AccountType, AppRoute, StorageKey } from '../../common/enums';
+import { AccountType, AppRoute } from '../../common/enums';
 import { theme } from '../../common/theme/theme';
 import { Loader } from '../../components';
-import { setCredentials } from '../../store/auth/slice';
 import {
   useSendSmsMutation,
   useVerifyCodeMutation,
 } from '../../store/auth-yard-api/auth-yard-api';
 
 const PhoneNumberInputForm: React.FC = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(true);
   const [sendSms, { isLoading, isSuccess }] = useSendSmsMutation();
   const [
     verifyCode,
-    {
-      data: verifyCodeData,
-      isLoading: CheckCodeLoading,
-      isSuccess: CheckCodeSuccess,
-    },
+    { isLoading: CheckCodeLoading, isSuccess: CheckCodeSuccess },
   ] = useVerifyCodeMutation();
 
   const [smsCode, setSmsCode] = useState('');
@@ -61,11 +54,6 @@ const PhoneNumberInputForm: React.FC = () => {
       type: AccountType.Business,
       code: smsCode,
     });
-    if (verifyCodeData) {
-      const token = verifyCodeData.data.access_token;
-      localStorage.setItem(StorageKey.TOKEN, token);
-      dispatch(setCredentials({ token }));
-    }
   };
 
   if (isLoading || CheckCodeLoading) {

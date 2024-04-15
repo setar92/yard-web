@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { UserAuthPaths } from '../../common/enums';
+import { StorageKey, UserAuthPaths } from '../../common/enums';
 import {
   VerifyCodeQuery,
   VerifyCodeResponse,
   SendCodeResponse,
   SendSmsQuery,
 } from '../../common/types';
+import { setCredentials } from '../auth/slice';
 import { RootState } from '../store';
 
 export const authYARDApi = createApi({
@@ -39,6 +40,12 @@ export const authYARDApi = createApi({
         method: 'POST',
         params: { phone, type, code },
       }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        const access_token = data.data.access_token;
+        dispatch(setCredentials({ access_token }));
+        localStorage.setItem(StorageKey.TOKEN, access_token);
+      },
     }),
   }),
 });
