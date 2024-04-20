@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { Box, CircularProgress } from '@mui/material';
 
+import { AddressInput } from '../components';
 import { useGetLockersQuery } from '../store/market-api/market-api';
 
 const PlaceOrderPage: FC = () => {
@@ -18,7 +19,8 @@ const PlaceOrderPage: FC = () => {
         height: '100vh', // Adjust height as needed
       }}
     >
-      main page
+      Place order
+      <AddressInput />
     </Box>
   );
 };
