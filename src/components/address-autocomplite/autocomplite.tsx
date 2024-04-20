@@ -1,22 +1,35 @@
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import { Box, TextField } from '@mui/material'; // Імпорт компонентів з Material-UI
-import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+import {
+  useJsApiLoader,
+  Autocomplete,
+  Libraries,
+} from '@react-google-maps/api';
 
 import { Loader } from '..';
 
-const AddressInput: React.FC = () => {
-  const originRef = useRef<HTMLDivElement | null>(null);
-  const [origin, setOrigin] = useState('');
-  // const destiantionRef = useRef<HTMLDivElement | null>(null);;
+interface AddressInputProps {
+  setAddress: Dispatch<SetStateAction<string>>;
+  label: string;
+  placeholder: string;
+}
+
+const GOOGLE_MAPS_LIBRARIES = ['places'] as Libraries;
+
+const AddressInput: React.FC<AddressInputProps> = ({
+  setAddress,
+  label,
+  placeholder,
+}) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
-    libraries: ['places'],
+    libraries: GOOGLE_MAPS_LIBRARIES,
   });
   const HandleLocationChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ): void => {
-    setOrigin(e.target.value);
+    setAddress(e.target.value);
   };
 
   if (!isLoaded) {
@@ -27,14 +40,13 @@ const AddressInput: React.FC = () => {
       <Autocomplete>
         <TextField
           id="outlined-basic"
-          label="Locations"
+          label={label}
           variant="outlined"
-          placeholder="Recipient's location"
+          placeholder={placeholder}
           sx={{
             width: '400px',
           }}
           onChange={HandleLocationChange}
-          ref={originRef}
         />
       </Autocomplete>
     </Box>
