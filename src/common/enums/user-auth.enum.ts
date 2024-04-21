@@ -1,6 +1,8 @@
 enum UserAuthPaths {
   SEND_SMS = 'api/auth/otp/send',
   VERIFY_SMS = 'api/auth/otp/check',
+  GET_USER_INFO = 'api/my/profile',
+  GET_LOCKERS_FROM = 'api/market/lockers-from',
 }
 
 enum AccountType {

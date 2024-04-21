@@ -5,7 +5,6 @@ import 'react-phone-input-2/lib/style.css'; // Стилізація для react
 const PhoneNumberInput: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  // Обробник для зміни номеру телефону
   const handlePhoneNumberChange = (value: string): void => {
     setPhoneNumber(value);
   };

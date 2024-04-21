@@ -6,6 +6,8 @@ import {
   VerifyCodeResponse,
   SendCodeResponse,
   SendSmsQuery,
+  UserInfo,
+  GetUserInfoResponse,
 } from '../../common/types';
 import { setCredentials } from '../auth/slice';
 import { RootState } from '../store';
@@ -33,6 +35,12 @@ export const authYARDApi = createApi({
         params: { phone, type },
       }),
     }),
+    getUserInfo: builder.query<UserInfo, void>({
+      query: () => ({
+        url: UserAuthPaths.GET_USER_INFO,
+      }),
+      transformResponse: (response: GetUserInfoResponse) => response.data,
+    }),
 
     verifyCode: builder.mutation<VerifyCodeResponse, VerifyCodeQuery>({
       query: ({ phone, type, code }) => ({
@@ -50,4 +58,8 @@ export const authYARDApi = createApi({
   }),
 });
 
-export const { useSendSmsMutation, useVerifyCodeMutation } = authYARDApi;
+export const {
+  useSendSmsMutation,
+  useVerifyCodeMutation,
+  useGetUserInfoQuery,
+} = authYARDApi;

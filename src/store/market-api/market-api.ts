@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { StorageKey } from '../../common/enums';
+import { StorageKey, UserAuthPaths } from '../../common/enums';
 import { DataResponse, Locker } from '../../common/types';
 
 const businessToken = localStorage.getItem(StorageKey.BUSINESSTOKEN) || '';
@@ -17,7 +17,7 @@ export const marketApi = createApi({
   endpoints: (build) => ({
     getLockers: build.query<Locker[], void>({
       query: () => ({
-        url: '/api/market/lockers-from',
+        url: UserAuthPaths.GET_LOCKERS_FROM,
         params: {},
       }),
       transformResponse: (response: DataResponse) => response.data,
