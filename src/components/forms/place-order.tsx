@@ -7,9 +7,12 @@ import { FromInput, Loader } from '../';
 import { theme } from '../../common/theme/theme';
 import { Locker, ToLocation, CreateParcelBody } from '../../common/types';
 import { useGetUserInfoQuery } from '../../store/auth-yard-api/auth-yard-api';
+import { useCreateParcelMutation } from '../../store/market-api/market-api';
 import { ToAddressInput } from '../to-address-input/to-adress-input';
 
 const PlaceOrder: FC = () => {
+  let createParcelBody: CreateParcelBody;
+
   const [toLocation, setToLocation] = useState<ToLocation>();
   const [fromLocation, setFromLocation] = useState<Locker>();
   const [recipientName, setrecipientName] = useState('');
@@ -18,8 +21,7 @@ const PlaceOrder: FC = () => {
   const [commentForMover, setCommentForMover] = useState('');
 
   const { isLoading, data: userInfo } = useGetUserInfoQuery();
-  let createParcelBody: CreateParcelBody;
-
+  const [createParcel] = useCreateParcelMutation();
   const fillCreateParcelBody = (): void => {
     if (fromLocation && userInfo && toLocation) {
       createParcelBody = {
@@ -41,7 +43,10 @@ const PlaceOrder: FC = () => {
         },
       };
     }
-    console.log(createParcelBody);
+    createParcel(createParcelBody);
+    setrecipientName('');
+    setCommentForMover('');
+    setrecipientPhone('');
   };
 
   if (isLoading) return <Loader />;
@@ -76,11 +81,6 @@ const PlaceOrder: FC = () => {
         }}
       >
         <h2>Recipient</h2>
-        <ToAddressInput
-          setAddress={setToLocation}
-          label="Recipient address"
-          placeholder="Type recipient address"
-        />
         <TextField
           label="Recipient name"
           variant="outlined"
@@ -94,6 +94,11 @@ const PlaceOrder: FC = () => {
           onChange={(e) => setrecipientPhone(e)}
           autocompleteSearch={true}
         />
+        <ToAddressInput
+          setAddress={setToLocation}
+          label="Recipient address"
+          placeholder="Type recipient address"
+        />
         <TextField
           label="Comment for mover"
           variant="outlined"
@@ -105,8 +110,6 @@ const PlaceOrder: FC = () => {
           onClick={fillCreateParcelBody}
           variant="contained"
           sx={{
-            // marginLeft: '10px',
-            // marginRight: '10px',
             backgroundColor: theme.palette.primary.main,
           }}
         >

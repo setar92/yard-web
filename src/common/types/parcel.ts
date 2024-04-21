@@ -21,4 +21,13 @@ interface CreateParcelBody {
   };
 }
 
-export type { CreateParcelBody };
+interface CreateParcelResponse {
+  data: {
+    number: number;
+    status: string;
+    amount: number;
+  };
+  message: string;
+}
+
+export type { CreateParcelBody, CreateParcelResponse };

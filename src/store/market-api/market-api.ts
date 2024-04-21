@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { StorageKey, UserAuthPaths } from '../../common/enums';
-import { DataResponse, Locker } from '../../common/types';
+import { CreateParcelBody, DataResponse, Locker } from '../../common/types';
+import { CreateParcelResponse } from '../../common/types/parcel';
 
 const businessToken = localStorage.getItem(StorageKey.BUSINESSTOKEN) || '';
 
@@ -15,6 +16,13 @@ export const marketApi = createApi({
     },
   }),
   endpoints: (build) => ({
+    createParcel: build.mutation<CreateParcelResponse, CreateParcelBody>({
+      query: (parcel) => ({
+        url: UserAuthPaths.CREATE_PARCEL,
+        method: 'POST',
+        body: parcel,
+      }),
+    }),
     getLockers: build.query<Locker[], void>({
       query: () => ({
         url: UserAuthPaths.GET_LOCKERS_FROM,
@@ -24,4 +32,4 @@ export const marketApi = createApi({
     }),
   }),
 });
-export const { useGetLockersQuery } = marketApi;
+export const { useGetLockersQuery, useCreateParcelMutation } = marketApi;
