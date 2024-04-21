@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { Box, CircularProgress } from '@mui/material';
 
-import { PlaceOrder } from '../components';
+import { Header, PlaceOrder } from '../components';
 import { useGetLockersQuery } from '../store/market-api/market-api';
 
 const PlaceOrderPage: FC = () => {
@@ -12,40 +12,28 @@ const PlaceOrderPage: FC = () => {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
         height: '100vh',
         width: '100vw ',
+        backgroundColor: 'lightcoral',
       }}
     >
+      <Header />
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          height: '10%',
-          width: '100% ',
-          backgroundColor: 'coral',
-        }}
-      ></Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
           height: '90%',
           width: '100% ',
           backgroundColor: 'lightskyblue',
+          display: 'flex',
         }}
       >
         <Box
           sx={{
-            height: '100%',
             width: '20% ',
-            backgroundColor: 'dimgrey',
+            backgroundColor: 'red',
           }}
         ></Box>
         <Box
           sx={{
-            height: '100%',
             width: '60% ',
             backgroundColor: 'lightyellow',
           }}
@@ -54,7 +42,6 @@ const PlaceOrderPage: FC = () => {
         </Box>
         <Box
           sx={{
-            height: '100%',
             width: '20% ',
             backgroundColor: 'lightpink',
           }}

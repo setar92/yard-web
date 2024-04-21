@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 
 import { Box } from '@mui/material';
 
+import { FromInput } from '../';
 import { AddressInput } from '../address-autocomplite/autocomplite';
 
 const PlaceOrder: FC = () => {
@@ -15,10 +16,10 @@ const PlaceOrder: FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh', // Adjust height as needed
       }}
     >
       <h1>Place order</h1>
+      <FromInput />
       <AddressInput
         setAddress={setOrigin}
         label="From location"
