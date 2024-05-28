@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'; // Стилізація для react-phone-input-2
 import { Navigate, useLocation } from 'react-router-dom';
@@ -34,6 +34,12 @@ const PhoneNumberInputForm: React.FC = () => {
     setPhoneNumber(value);
   };
 
+  const handleEnter = (event: KeyboardEvent<HTMLInputElement>): void => {
+    if (event.code === 'NumpadEnter') {
+      handleSubmit(event);
+    }
+  };
+
   const handleSmsCodeChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value;
     if (value.length > 4) {
@@ -43,7 +49,9 @@ const PhoneNumberInputForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (
+    event: React.FormEvent<HTMLFormElement> | KeyboardEvent<HTMLInputElement>,
+  ): void => {
     event.preventDefault();
     sendSms({ phone: phoneNumber, type: AccountType.Business });
   };
@@ -111,6 +119,7 @@ const PhoneNumberInputForm: React.FC = () => {
             value={phoneNumber}
             onChange={handlePhoneNumberChange}
             autocompleteSearch={true}
+            onKeyDown={handleEnter}
           />
           <Button
             type="submit"

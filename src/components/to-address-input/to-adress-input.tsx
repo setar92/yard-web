@@ -69,7 +69,7 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
           <TextField
             placeholder={placeholder}
             label={label}
-            sx={{ width: 300, marginTop: 2 }}
+            sx={{ width: 600, marginTop: 2 }}
           />
         </StandaloneSearchBox>
       </LoadScript>

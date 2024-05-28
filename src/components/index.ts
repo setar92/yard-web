@@ -5,3 +5,4 @@ export { ToAddressInput } from './to-address-input/to-adress-input';
 export { PlaceOrder } from './forms/place-order';
 export { Header } from './header/header';
 export { FromInput } from './from-input/from-input';
+export { ToggleButtons } from './toggle/toggle';

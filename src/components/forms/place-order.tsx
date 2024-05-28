@@ -1,7 +1,7 @@
-import React, { FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, Input, TextField } from '@mui/material';
 
 import { FromInput, Loader } from '../';
 import { theme } from '../../common/theme/theme';
@@ -19,11 +19,17 @@ const PlaceOrder: FC = () => {
   const [recipientPhone, setrecipientPhone] = useState('');
   const [parcelDescription, setParcelDescription] = useState('');
   const [commentForMover, setCommentForMover] = useState('');
+  const [parcelPhoto, setParcelPhoto] = useState<File>();
 
   const { isLoading, data: userInfo } = useGetUserInfoQuery();
   const [createParcel] = useCreateParcelMutation();
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const file = event.target.files?.[0];
+    setParcelPhoto(file);
+  };
   const fillCreateParcelBody = (): void => {
-    if (fromLocation && userInfo && toLocation) {
+    if (fromLocation && userInfo && toLocation && parcelDescription) {
       createParcelBody = {
         from_id: fromLocation.id,
         sender: { name: userInfo.name, phone: userInfo?.phone },
@@ -41,12 +47,29 @@ const PlaceOrder: FC = () => {
         mover: {
           comment: commentForMover,
         },
+        photo_sender: parcelPhoto,
       };
+      const formData = new FormData();
+      parcelPhoto && formData.append('photo_sender', parcelPhoto);
+      formData.append('from_id', createParcelBody.from_id);
+      formData.append('sender[name]', createParcelBody.sender.name);
+      formData.append('sender[phone]', createParcelBody.sender.phone);
+      formData.append('to_apartment', createParcelBody.to_apartment);
+      formData.append('to_city', createParcelBody.to_city);
+      formData.append('to_lat', createParcelBody.to_lat);
+      formData.append('to_lng', createParcelBody.to_lng);
+      formData.append('to_street', createParcelBody.to_street);
+      formData.append('to_zip', createParcelBody.to_zip);
+      formData.append('recipient[name]', createParcelBody.recipient.name);
+      formData.append('recipient[phone]', createParcelBody.recipient.phone);
+      formData.append('desc', parcelDescription);
+      formData.append('mover[comment]', commentForMover);
+      createParcel(formData as unknown as CreateParcelBody);
+      setrecipientName('');
+      setCommentForMover('');
+      setrecipientPhone('');
+      setParcelDescription('');
     }
-    createParcel(createParcelBody);
-    setrecipientName('');
-    setCommentForMover('');
-    setrecipientPhone('');
   };
 
   if (isLoading) return <Loader />;
@@ -68,7 +91,7 @@ const PlaceOrder: FC = () => {
           variant="outlined"
           value={parcelDescription}
           onChange={(e) => setParcelDescription(e.target.value)}
-          sx={{ width: 300, marginTop: 2 }}
+          sx={{ width: 600, marginTop: 2 }}
         />
         <FromInput setFromLocation={setFromLocation} />
       </Box>
@@ -86,7 +109,7 @@ const PlaceOrder: FC = () => {
           variant="outlined"
           value={recipientName}
           onChange={(e) => setrecipientName(e.target.value)}
-          sx={{ width: 300, marginTop: 2, marginBottom: 2 }}
+          sx={{ width: 600, marginTop: 2, marginBottom: 2 }}
         />
         <PhoneInput
           country={'lv'}
@@ -104,8 +127,14 @@ const PlaceOrder: FC = () => {
           variant="outlined"
           value={commentForMover}
           onChange={(e) => setCommentForMover(e.target.value)}
-          sx={{ width: 300, marginTop: 2, marginBottom: 2 }}
+          sx={{ width: 600, marginTop: 2, marginBottom: 2 }}
         />
+        <Input
+          type="File"
+          sx={{ width: 300, marginBottom: 2 }}
+          onChange={handleFileChange}
+        />
+
         <Button
           onClick={fillCreateParcelBody}
           variant="contained"

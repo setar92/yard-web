@@ -52,8 +52,19 @@ const Header: FC = () => {
             placeholder="Type your business token"
             value={businessToken}
             onChange={(e): void => setBusinessToken(e.target.value)}
+            sx={{
+              marginLeft: '10px',
+              marginRight: '10px',
+            }}
           />
-          <Button onClick={handleSaveToken}>Save</Button>
+          <Button
+            onClick={handleSaveToken}
+            sx={{
+              paddingTop: '16px',
+            }}
+          >
+            Save
+          </Button>
         </Box>
       ) : (
         <Button

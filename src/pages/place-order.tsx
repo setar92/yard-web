@@ -2,7 +2,8 @@ import React, { FC } from 'react';
 
 import { Box } from '@mui/material';
 
-import { Header, PlaceOrder } from '../components';
+import { theme } from '../common/theme/theme';
+import { Header, PlaceOrder, ToggleButtons } from '../components';
 
 const PlaceOrderPage: FC = () => {
   return (
@@ -10,7 +11,7 @@ const PlaceOrderPage: FC = () => {
       sx={{
         height: '100vh',
         width: '100vw ',
-        // backgroundColor: 'lightcoral',
+        backgroundColor: theme.palette.background.default,
       }}
     >
       <Header />
@@ -18,28 +19,30 @@ const PlaceOrderPage: FC = () => {
         sx={{
           height: '90%',
           width: '100% ',
-          // backgroundColor: 'lightskyblue',
+          backgroundColor: theme.palette.background.default,
           display: 'flex',
         }}
       >
         <Box
           sx={{
             width: '20% ',
-            backgroundColor: 'red',
+            backgroundColor: theme.palette.background.default,
           }}
         ></Box>
         <Box
           sx={{
             width: '60% ',
-            // backgroundColor: 'lightyellow',
+            backgroundColor: theme.palette.background.default,
+            border: '1px solid black',
           }}
         >
+          <ToggleButtons />
           <PlaceOrder />
         </Box>
         <Box
           sx={{
             width: '20% ',
-            backgroundColor: 'lightpink',
+            backgroundColor: theme.palette.background.default,
           }}
         ></Box>
       </Box>
