@@ -12,4 +12,5 @@ export type {
   VerifyCodeResponse,
   AccountType,
 } from './auth';
+export type { UserRole, FromLocation } from './delivery-types';
 export type { CreateParcelBody } from './parcel';

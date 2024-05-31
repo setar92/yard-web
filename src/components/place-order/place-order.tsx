@@ -3,7 +3,7 @@ import PhoneInput from 'react-phone-input-2';
 
 import { Box, Button, Input, TextField } from '@mui/material';
 
-import { FromInput, Loader } from '../';
+import { FromInput, Loader } from '..';
 import { theme } from '../../common/theme/theme';
 import { Locker, ToLocation, CreateParcelBody } from '../../common/types';
 import { useGetUserInfoQuery } from '../../store/auth-yard-api/auth-yard-api';
@@ -15,8 +15,8 @@ const PlaceOrder: FC = () => {
 
   const [toLocation, setToLocation] = useState<ToLocation>();
   const [fromLocation, setFromLocation] = useState<Locker>();
-  const [recipientName, setrecipientName] = useState('');
-  const [recipientPhone, setrecipientPhone] = useState('');
+  const [recipientName, setRecipientName] = useState('');
+  const [recipientPhone, setRecipientPhone] = useState('');
   const [parcelDescription, setParcelDescription] = useState('');
   const [commentForMover, setCommentForMover] = useState('');
   const [parcelPhoto, setParcelPhoto] = useState<File>();
@@ -65,9 +65,9 @@ const PlaceOrder: FC = () => {
       formData.append('desc', parcelDescription);
       formData.append('mover[comment]', commentForMover);
       createParcel(formData as unknown as CreateParcelBody);
-      setrecipientName('');
+      setRecipientName('');
       setCommentForMover('');
-      setrecipientPhone('');
+      setRecipientPhone('');
       setParcelDescription('');
     }
   };
@@ -81,19 +81,62 @@ const PlaceOrder: FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        width: '100%',
       }}
     >
-      <h1>Place order</h1>
-      <Box>
-        <h2>Sender</h2>
+      <h1 style={{ marginTop: theme.spacing(2) }}>Place order</h1>
+      <Box
+        sx={{
+          width: '100%',
+        }}
+      >
+        <h2>About parcel</h2>
         <TextField
           label="Description"
           variant="outlined"
           value={parcelDescription}
           onChange={(e) => setParcelDescription(e.target.value)}
-          sx={{ width: 600, marginTop: 2 }}
+          sx={{
+            width: '100%',
+            marginTop: 2,
+            background: theme.palette.background.paper,
+          }}
         />
-        <FromInput setFromLocation={setFromLocation} />
+        <TextField
+          label="Comment for mover"
+          variant="outlined"
+          value={commentForMover}
+          onChange={(e) => setCommentForMover(e.target.value)}
+          sx={{
+            width: '100%',
+            marginTop: 2,
+            marginBottom: 2,
+            background: theme.palette.background.paper,
+          }}
+        />
+      </Box>
+      <Box
+        sx={{
+          width: '100%',
+        }}
+      >
+        <h2>Sender</h2>
+        <TextField
+          label="Sender name"
+          variant="outlined"
+          value={recipientName}
+          onChange={(e) => setRecipientName(e.target.value)}
+          sx={{
+            width: '100%',
+            marginTop: 2,
+            marginBottom: 2,
+            background: theme.palette.background.paper,
+          }}
+        />
+        <FromInput
+          setFromLocation={setFromLocation}
+          fromLocation={fromLocation}
+        />
       </Box>
       <Box
         sx={{
@@ -101,20 +144,26 @@ const PlaceOrder: FC = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          width: '100%',
         }}
       >
-        <h2>Recipient</h2>
+        <h2 style={{ width: '100%' }}>Recipient</h2>
         <TextField
           label="Recipient name"
           variant="outlined"
           value={recipientName}
-          onChange={(e) => setrecipientName(e.target.value)}
-          sx={{ width: 600, marginTop: 2, marginBottom: 2 }}
+          onChange={(e) => setRecipientName(e.target.value)}
+          sx={{
+            width: '100%',
+            marginTop: 2,
+            marginBottom: 2,
+            background: theme.palette.background.paper,
+          }}
         />
         <PhoneInput
           country={'lv'}
           value={recipientPhone}
-          onChange={(e) => setrecipientPhone(e)}
+          onChange={(e) => setRecipientPhone(e)}
           autocompleteSearch={true}
         />
         <ToAddressInput
@@ -122,19 +171,12 @@ const PlaceOrder: FC = () => {
           label="Recipient address"
           placeholder="Type recipient address"
         />
-        <TextField
-          label="Comment for mover"
-          variant="outlined"
-          value={commentForMover}
-          onChange={(e) => setCommentForMover(e.target.value)}
-          sx={{ width: 600, marginTop: 2, marginBottom: 2 }}
-        />
+
         <Input
           type="File"
-          sx={{ width: 300, marginBottom: 2 }}
+          sx={{ width: '100%', marginBottom: 2 }}
           onChange={handleFileChange}
         />
-
         <Button
           onClick={fillCreateParcelBody}
           variant="contained"

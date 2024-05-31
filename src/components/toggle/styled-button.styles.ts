@@ -1,7 +1,7 @@
-// ToggleButton.tsx
 import styled from 'styled-components';
 
-import { theme } from '../../common/theme/theme';
+import { theme } from './../../common/theme/theme';
+// ToggleButton.tsx
 
 interface StyledButtonProps {
   $isActive?: boolean;
@@ -10,30 +10,37 @@ interface StyledButtonProps {
 
 // Define the styled components
 const StyledButton = styled.button<StyledButtonProps>`
-  width: 50%;
-  padding: 10px 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+  padding: ${theme.spacing(2)} ${theme.spacing(1)};
+  margin-top: ${theme.spacing(2)};
+  margin-right: ${theme.spacing(2)};
   cursor: pointer;
-  font-size: 36px;
-  border-top-left-radius: ${({ $borderRadius }): string =>
-    $borderRadius === 'left' ? '10px' : '0'};
-  border-bottom-left-radius: ${({ $borderRadius }): string =>
-    $borderRadius === 'left' ? '10px' : '0'};
-  border-top-right-radius: ${({ $borderRadius }): string =>
-    $borderRadius === 'right' ? '10px' : '0'};
-  border-bottom-right-radius: ${({ $borderRadius }): string =>
-    $borderRadius === 'right' ? '10px' : '0'};
+  font-size: 18px;
+  border: none;
+  border-radius: ${theme.spacing(2)};
   background-color: ${({ $isActive }): string =>
-    $isActive ? theme.palette.primary.dark : theme.palette.primary.light};
+    $isActive ? theme.palette.primary.main : theme.palette.primary.light};
   color: ${({ $isActive }): string =>
-    $isActive ? theme.palette.primary.light : theme.palette.primary.dark};
+    $isActive ? theme.palette.primary.light : theme.palette.primary.main};
   transition: background-color 0.3s;
+
+  @media (max-width: ${theme.breakpoints.values.md}px) {
+    padding: ${theme.spacing(1)} ${theme.spacing(1)};
+    margin-top: ${theme.spacing(1)};
+    margin-right: ${theme.spacing(1)};
+    font-size: 16px;
+    border-radius: ${({ $borderRadius }): string =>
+      $borderRadius === 'left' ? '4px' : '0'};
+  }
+
+  @media (max-width: ${theme.breakpoints.values.md}px) {
+    font-size: 12px;
+  }
 `;
 
 const ButtonsContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 

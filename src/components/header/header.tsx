@@ -39,9 +39,8 @@ const Header: FC = () => {
         display: 'flex',
         height: '10%',
         width: '100%',
-        backgroundColor: 'white',
+        backgroundColor: theme.palette.background.paper,
         alignItems: 'center',
-        border: '2px solid black',
       }}
     >
       {showInput ? (

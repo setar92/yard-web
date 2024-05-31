@@ -7,6 +7,7 @@ import {
   StandaloneSearchBox,
 } from '@react-google-maps/api';
 
+import { theme } from '../../common/theme/theme';
 import { ToLocation } from '../../common/types';
 
 interface AddressInputProps {
@@ -57,7 +58,11 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: '100%',
+      }}
+    >
       <LoadScript
         googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string}
         libraries={GOOGLE_MAPS_LIBRARIES}
@@ -69,7 +74,11 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
           <TextField
             placeholder={placeholder}
             label={label}
-            sx={{ width: 600, marginTop: 2 }}
+            sx={{
+              width: '100%',
+              marginTop: 2,
+              background: theme.palette.background.paper,
+            }}
           />
         </StandaloneSearchBox>
       </LoadScript>

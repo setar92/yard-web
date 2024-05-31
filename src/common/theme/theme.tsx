@@ -10,6 +10,17 @@ export const theme = createTheme({
     },
     background: {
       default: '#f5f5f5',
+      paper: '#ffffff',
     },
   },
+  breakpoints: {
+    values: {
+      lg: 1920,
+      xl: 1536,
+      md: 1200,
+      sm: 768,
+      xs: 480,
+    },
+  },
+  spacing: [2, 6, 12, 24],
 });

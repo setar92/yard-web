@@ -9,14 +9,16 @@ import React, {
 import { Autocomplete, CircularProgress, TextField } from '@mui/material';
 
 import { AccountType } from '../../common/enums';
+import { theme } from '../../common/theme/theme';
 import { Locker } from '../../common/types';
 import { useGetLockersQuery } from '../../store/market-api/market-api';
 
 interface FromInputProps {
   setFromLocation: Dispatch<SetStateAction<Locker | undefined>>;
+  fromLocation: Locker | undefined;
 }
 
-const FromInput: FC<FromInputProps> = ({ setFromLocation }) => {
+const FromInput: FC<FromInputProps> = ({ setFromLocation, fromLocation }) => {
   const { data: lockers, isSuccess, isError } = useGetLockersQuery();
   const [bussinessLocations, setBussinessLocations] = useState(['']);
 
@@ -45,7 +47,13 @@ const FromInput: FC<FromInputProps> = ({ setFromLocation }) => {
     <Autocomplete
       id="fromPoint"
       options={bussinessLocations}
-      sx={{ width: 300, marginTop: 2, marginBottom: 2 }}
+      value={fromLocation ? fromLocation.address : bussinessLocations[0]}
+      sx={{
+        width: '100%',
+        marginTop: 2,
+        marginBottom: 2,
+        background: theme.palette.background.paper,
+      }}
       renderInput={(params) => <TextField {...params} label="From location" />}
       onChange={(
         event: React.SyntheticEvent<Element, Event | null>,

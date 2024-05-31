@@ -3,7 +3,12 @@ import React, { FC } from 'react';
 import { Box } from '@mui/material';
 
 import { theme } from '../common/theme/theme';
-import { Header, PlaceOrder, ToggleButtons } from '../components';
+import {
+  Header,
+  PlaceOrder,
+  ToggleDeliveryType,
+  ToggleSender,
+} from '../components';
 
 const PlaceOrderPage: FC = () => {
   return (
@@ -17,7 +22,7 @@ const PlaceOrderPage: FC = () => {
       <Header />
       <Box
         sx={{
-          height: '90%',
+          // height: '90%',
           width: '100% ',
           backgroundColor: theme.palette.background.default,
           display: 'flex',
@@ -25,23 +30,23 @@ const PlaceOrderPage: FC = () => {
       >
         <Box
           sx={{
-            width: '20% ',
+            width: '30% ',
             backgroundColor: theme.palette.background.default,
           }}
         ></Box>
         <Box
           sx={{
-            width: '60% ',
+            width: '40% ',
             backgroundColor: theme.palette.background.default,
-            border: '1px solid black',
           }}
         >
-          <ToggleButtons />
+          <ToggleDeliveryType />
+          <ToggleSender />
           <PlaceOrder />
         </Box>
         <Box
           sx={{
-            width: '20% ',
+            width: '30% ',
             backgroundColor: theme.palette.background.default,
           }}
         ></Box>
