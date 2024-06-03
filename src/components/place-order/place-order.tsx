@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 
 import { Box, Button, Input, TextField } from '@mui/material';
@@ -11,64 +11,58 @@ import { useCreateParcelMutation } from '../../store/market-api/market-api';
 import { ToAddressInput } from '../to-address-input/to-adress-input';
 
 const PlaceOrder: FC = () => {
-  let createParcelBody: CreateParcelBody;
-
-  const [toLocation, setToLocation] = useState<ToLocation>();
   const [fromLocation, setFromLocation] = useState<Locker>();
-  const [recipientName, setRecipientName] = useState('');
-  const [recipientPhone, setRecipientPhone] = useState('');
-  const [parcelDescription, setParcelDescription] = useState('');
-  const [commentForMover, setCommentForMover] = useState('');
   const [parcelPhoto, setParcelPhoto] = useState<File>();
+  const [toLocation, setToLocation] = useState<ToLocation | null>(null);
+  const [bodyData, setBodyData] = useState<CreateParcelBody>({
+    sender: { name: '', phone: '' },
+    recipient: { name: '', phone: '' },
+    desc: '',
+    mover: { comment: '' },
+  });
 
   const { isLoading, data: userInfo } = useGetUserInfoQuery();
   const [createParcel] = useCreateParcelMutation();
+
+  useEffect(() => {
+    if (userInfo) {
+      const sender = {
+        name: `${userInfo.name} ${userInfo.lastname}`,
+        phone: userInfo.phone,
+      };
+      setBodyData({ ...bodyData, sender });
+    }
+  }, [userInfo]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const file = event.target.files?.[0];
     setParcelPhoto(file);
   };
   const fillCreateParcelBody = (): void => {
-    if (fromLocation && userInfo && toLocation && parcelDescription) {
-      createParcelBody = {
-        from_id: fromLocation.id,
-        sender: { name: userInfo.name, phone: userInfo?.phone },
-        to_apartment: toLocation.to_apartment,
-        to_city: toLocation.to_city,
-        to_lat: toLocation.to_lat,
-        to_lng: toLocation.to_lng,
-        to_street: toLocation.to_street,
-        to_zip: toLocation.to_zip,
-        recipient: {
-          name: recipientName,
-          phone: recipientPhone,
-        },
-        desc: parcelDescription,
-        mover: {
-          comment: commentForMover,
-        },
-        photo_sender: parcelPhoto,
-      };
+    if (fromLocation && userInfo && toLocation && bodyData.desc) {
       const formData = new FormData();
       parcelPhoto && formData.append('photo_sender', parcelPhoto);
-      formData.append('from_id', createParcelBody.from_id);
-      formData.append('sender[name]', createParcelBody.sender.name);
-      formData.append('sender[phone]', createParcelBody.sender.phone);
-      formData.append('to_apartment', createParcelBody.to_apartment);
-      formData.append('to_city', createParcelBody.to_city);
-      formData.append('to_lat', createParcelBody.to_lat);
-      formData.append('to_lng', createParcelBody.to_lng);
-      formData.append('to_street', createParcelBody.to_street);
-      formData.append('to_zip', createParcelBody.to_zip);
-      formData.append('recipient[name]', createParcelBody.recipient.name);
-      formData.append('recipient[phone]', createParcelBody.recipient.phone);
-      formData.append('desc', parcelDescription);
-      formData.append('mover[comment]', commentForMover);
+      formData.append('from_id', fromLocation.id);
+      formData.append('sender[name]', bodyData.sender.name);
+      formData.append('sender[phone]', bodyData.sender.phone);
+      formData.append('to_apartment', toLocation.to_apartment);
+      formData.append('to_city', toLocation.to_city);
+      formData.append('to_lat', toLocation.to_lat);
+      formData.append('to_lng', toLocation.to_lng);
+      formData.append('to_street', toLocation.to_street);
+      formData.append('to_zip', toLocation.to_zip);
+      formData.append('recipient[name]', bodyData.recipient.name);
+      formData.append('recipient[phone]', bodyData.recipient.phone);
+      formData.append('desc', bodyData.desc);
+      formData.append('mover[comment]', bodyData.mover?.comment as string);
       createParcel(formData as unknown as CreateParcelBody);
-      setRecipientName('');
-      setCommentForMover('');
-      setRecipientPhone('');
-      setParcelDescription('');
+      setBodyData({
+        ...bodyData,
+        recipient: { name: '', phone: '+371' },
+        desc: '',
+        mover: { comment: '' },
+      });
+      setToLocation(null);
     }
   };
 
@@ -85,17 +79,13 @@ const PlaceOrder: FC = () => {
       }}
     >
       <h1 style={{ marginTop: theme.spacing(2) }}>Place order</h1>
-      <Box
-        sx={{
-          width: '100%',
-        }}
-      >
+      <Box sx={{ width: '100%' }}>
         <h2>About parcel</h2>
         <TextField
           label="Description"
           variant="outlined"
-          value={parcelDescription}
-          onChange={(e) => setParcelDescription(e.target.value)}
+          value={bodyData.desc}
+          onChange={(e) => setBodyData({ ...bodyData, desc: e.target.value })}
           sx={{
             width: '100%',
             marginTop: 2,
@@ -105,8 +95,10 @@ const PlaceOrder: FC = () => {
         <TextField
           label="Comment for mover"
           variant="outlined"
-          value={commentForMover}
-          onChange={(e) => setCommentForMover(e.target.value)}
+          value={bodyData.mover?.comment}
+          onChange={(e) =>
+            setBodyData({ ...bodyData, mover: { comment: e.target.value } })
+          }
           sx={{
             width: '100%',
             marginTop: 2,
@@ -124,8 +116,13 @@ const PlaceOrder: FC = () => {
         <TextField
           label="Sender name"
           variant="outlined"
-          value={recipientName}
-          onChange={(e) => setRecipientName(e.target.value)}
+          value={bodyData.sender.name}
+          onChange={(e) =>
+            setBodyData({
+              ...bodyData,
+              sender: { name: e.target.value, phone: bodyData.sender.phone },
+            })
+          }
           sx={{
             width: '100%',
             marginTop: 2,
@@ -151,8 +148,16 @@ const PlaceOrder: FC = () => {
         <TextField
           label="Recipient name"
           variant="outlined"
-          value={recipientName}
-          onChange={(e) => setRecipientName(e.target.value)}
+          value={bodyData.recipient.name}
+          onChange={(e) =>
+            setBodyData({
+              ...bodyData,
+              recipient: {
+                name: e.target.value,
+                phone: bodyData.recipient.phone,
+              },
+            })
+          }
           sx={{
             width: '100%',
             marginTop: 2,
@@ -162,19 +167,31 @@ const PlaceOrder: FC = () => {
         />
         <PhoneInput
           country={'lv'}
-          value={recipientPhone}
-          onChange={(e) => setRecipientPhone(e)}
+          value={bodyData.recipient.phone}
+          onChange={(e) =>
+            setBodyData({
+              ...bodyData,
+              recipient: {
+                name: bodyData.recipient.name,
+                phone: e,
+              },
+            })
+          }
           autocompleteSearch={true}
         />
         <ToAddressInput
-          setAddress={setToLocation}
+          setRecipientAddress={setToLocation}
           label="Recipient address"
           placeholder="Type recipient address"
         />
 
         <Input
           type="File"
-          sx={{ width: '100%', marginBottom: 2 }}
+          sx={{
+            width: '100%',
+            marginTop: theme.spacing(2),
+            backgroundColor: theme.palette.primary.light,
+          }}
           onChange={handleFileChange}
         />
         <Button
@@ -182,6 +199,7 @@ const PlaceOrder: FC = () => {
           variant="contained"
           sx={{
             backgroundColor: theme.palette.primary.main,
+            marginTop: theme.spacing(2),
           }}
         >
           Create order

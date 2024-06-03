@@ -28,6 +28,8 @@ const FromInput: FC<FromInputProps> = ({ setFromLocation, fromLocation }) => {
         (loc) => loc.type === AccountType.Business,
       );
       setBussinessLocations(myLocations.map((loc) => loc.address));
+      setFromLocation(lockers[0]);
+      localStorage.setItem('fromLocation', JSON.stringify(lockers[0]));
     }
   }, [isSuccess, lockers]);
 
@@ -40,7 +42,8 @@ const FromInput: FC<FromInputProps> = ({ setFromLocation, fromLocation }) => {
       localStorage.setItem('fromLocation', JSON.stringify(fromLocation));
     }
   };
-  if (isError) alert("Can't dowload lockers");
+
+  if (isError) alert("Can't dowload locations");
   if (!isSuccess || !lockers) return <CircularProgress color="primary" />;
 
   return (
@@ -50,8 +53,7 @@ const FromInput: FC<FromInputProps> = ({ setFromLocation, fromLocation }) => {
       value={fromLocation ? fromLocation.address : bussinessLocations[0]}
       sx={{
         width: '100%',
-        marginTop: 2,
-        marginBottom: 2,
+        marginBottom: theme.spacing(2),
         background: theme.palette.background.paper,
       }}
       renderInput={(params) => <TextField {...params} label="From location" />}

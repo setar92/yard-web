@@ -11,7 +11,7 @@ import { theme } from '../../common/theme/theme';
 import { ToLocation } from '../../common/types';
 
 interface AddressInputProps {
-  setAddress: Dispatch<SetStateAction<ToLocation | undefined>>;
+  setRecipientAddress: Dispatch<SetStateAction<ToLocation | null>>;
   label: string;
   placeholder: string;
 }
@@ -19,7 +19,7 @@ interface AddressInputProps {
 const GOOGLE_MAPS_LIBRARIES = ['places'] as Libraries;
 
 const ToAddressInput: React.FC<AddressInputProps> = ({
-  setAddress,
+  setRecipientAddress,
   label,
   placeholder,
 }) => {
@@ -52,7 +52,7 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
           to_lat: String(lat),
           to_lng: String(lng),
         };
-        setAddress(toLoaction);
+        setRecipientAddress(toLoaction);
       }
     }
   };
@@ -76,7 +76,7 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
             label={label}
             sx={{
               width: '100%',
-              marginTop: 2,
+              marginTop: theme.spacing(2),
               background: theme.palette.background.paper,
             }}
           />
