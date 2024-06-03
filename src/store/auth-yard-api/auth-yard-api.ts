@@ -1,7 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { UserAuthPaths } from '../../common/enums';
-import { AuthResponse, SendSmsQuery } from '../../common/types';
+import { StorageKey, UserAuthPaths } from '../../common/enums';
+import {
+  VerifyCodeQuery,
+  VerifyCodeResponse,
+  SendCodeResponse,
+  SendSmsQuery,
+  UserInfo,
+  GetUserInfoResponse,
+} from '../../common/types';
+import { setCredentials } from '../auth/slice';
 import { RootState } from '../store';
 
 export const authYARDApi = createApi({
@@ -20,14 +28,38 @@ export const authYARDApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    sendSms: builder.mutation<AuthResponse, SendSmsQuery>({
+    sendSms: builder.mutation<SendCodeResponse, SendSmsQuery>({
       query: ({ phone, type }) => ({
         url: UserAuthPaths.SEND_SMS,
         method: 'POST',
         params: { phone, type },
       }),
     }),
+    getUserInfo: builder.query<UserInfo, void>({
+      query: () => ({
+        url: UserAuthPaths.GET_USER_INFO,
+      }),
+      transformResponse: (response: GetUserInfoResponse) => response.data,
+    }),
+
+    verifyCode: builder.mutation<VerifyCodeResponse, VerifyCodeQuery>({
+      query: ({ phone, type, code }) => ({
+        url: UserAuthPaths.VERIFY_SMS,
+        method: 'POST',
+        params: { phone, type, code },
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        const access_token = data.data.access_token;
+        dispatch(setCredentials({ access_token }));
+        localStorage.setItem(StorageKey.TOKEN, access_token);
+      },
+    }),
   }),
 });
 
-export const { useSendSmsMutation } = authYARDApi;
+export const {
+  useSendSmsMutation,
+  useVerifyCodeMutation,
+  useGetUserInfoQuery,
+} = authYARDApi;

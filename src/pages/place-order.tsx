@@ -2,24 +2,55 @@ import React, { FC } from 'react';
 
 import { Box } from '@mui/material';
 
-import { PhoneNumberInputForm } from '../components';
-import { useGetLockersQuery } from '../store/market-api/market-api';
+import { theme } from '../common/theme/theme';
+import {
+  Header,
+  PlaceOrder,
+  ToggleDeliveryType,
+  ToggleSender,
+} from '../components';
 
 const PlaceOrderPage: FC = () => {
-  const { data: lockers } = useGetLockersQuery();
-  if (!lockers) return <div>Loading...</div>;
-
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh', // Adjust height as needed
+        height: '100vh',
+        width: '100vw ',
+        backgroundColor: theme.palette.background.default,
       }}
     >
-      <PhoneNumberInputForm />
+      <Header />
+      <Box
+        sx={{
+          // height: '90%',
+          width: '100% ',
+          backgroundColor: theme.palette.background.default,
+          display: 'flex',
+        }}
+      >
+        <Box
+          sx={{
+            width: '30% ',
+            backgroundColor: theme.palette.background.default,
+          }}
+        ></Box>
+        <Box
+          sx={{
+            width: '40% ',
+            backgroundColor: theme.palette.background.default,
+          }}
+        >
+          <ToggleDeliveryType />
+          <ToggleSender />
+          <PlaceOrder />
+        </Box>
+        <Box
+          sx={{
+            width: '30% ',
+            backgroundColor: theme.palette.background.default,
+          }}
+        ></Box>
+      </Box>
     </Box>
   );
 };

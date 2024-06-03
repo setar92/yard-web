@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { Provider } from 'react-redux';
 
-import { PlaceOrderPage } from './pages';
+import { Routing } from './navigation/routing/routing';
 import { store } from './store/store';
+import './index.css';
 
 const App: FC = () => {
   return (
     <Provider store={store}>
-      <PlaceOrderPage />
+      <Routing />
     </Provider>
   );
 };

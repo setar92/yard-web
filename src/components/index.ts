@@ -1,2 +1,9 @@
 export { PhoneNumberInput } from './phone-input/phone-input';
 export { PhoneNumberInputForm } from './forms/log-in';
+export { Loader } from './loader/Loader';
+export { ToAddressInput } from './to-address-input/to-adress-input';
+export { PlaceOrder } from './place-order/place-order';
+export { Header } from './header/header';
+export { FromInput } from './from-input/from-input';
+export { ToggleDeliveryType } from './toggle/toggle-delivery-type';
+export { ToggleSender } from './toggle/toggle-sender';
