@@ -3,15 +3,15 @@ import PhoneInput from 'react-phone-input-2';
 
 import { Box, Button, Input, TextField } from '@mui/material';
 
-import { FromInput, Loader } from '..';
+import { Loader } from '..';
 import { theme } from '../../common/theme/theme';
-import { Locker, ToLocation, CreateParcelBody } from '../../common/types';
+import { ToLocation, CreateParcelBody } from '../../common/types';
 import { useGetUserInfoQuery } from '../../store/auth-yard-api/auth-yard-api';
 import { useCreateParcelMutation } from '../../store/market-api/market-api';
 import { ToAddressInput } from '../to-address-input/to-adress-input';
 
-const PlaceOrder: FC = () => {
-  const [fromLocation, setFromLocation] = useState<Locker>();
+const PlaceOrderA2A: FC = () => {
+  const [fromLocation, setFromLocation] = useState<ToLocation | null>(null);
   const [parcelPhoto, setParcelPhoto] = useState<File>();
   const [toLocation, setToLocation] = useState<ToLocation | null>(null);
   const [bodyData, setBodyData] = useState<CreateParcelBody>({
@@ -22,7 +22,7 @@ const PlaceOrder: FC = () => {
   });
 
   const { isLoading, data: userInfo } = useGetUserInfoQuery();
-  const [createParcel] = useCreateParcelMutation();
+  const [createParcel, { isError }] = useCreateParcelMutation();
 
   useEffect(() => {
     if (userInfo) {
@@ -34,6 +34,10 @@ const PlaceOrder: FC = () => {
     }
   }, [userInfo]);
 
+  useEffect(() => {
+    isError && alert('some error, parcel is not registered');
+  }, [isError]);
+
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const file = event.target.files?.[0];
     setParcelPhoto(file);
@@ -42,7 +46,12 @@ const PlaceOrder: FC = () => {
     if (fromLocation && userInfo && toLocation && bodyData.desc) {
       const formData = new FormData();
       parcelPhoto && formData.append('photo_sender', parcelPhoto);
-      formData.append('from_id', fromLocation.id);
+      formData.append('from_apartment', fromLocation.to_apartment);
+      formData.append('from_city', fromLocation.to_city);
+      formData.append('from_lat', fromLocation.to_lat);
+      formData.append('from_lng', fromLocation.to_lng);
+      formData.append('from_street', fromLocation.to_street);
+      formData.append('from_zip', fromLocation.to_zip);
       formData.append('sender[name]', bodyData.sender.name);
       formData.append('sender[phone]', bodyData.sender.phone);
       formData.append('to_apartment', toLocation.to_apartment);
@@ -55,6 +64,7 @@ const PlaceOrder: FC = () => {
       formData.append('recipient[phone]', bodyData.recipient.phone);
       formData.append('desc', bodyData.desc);
       formData.append('mover[comment]', bodyData.mover?.comment as string);
+
       createParcel(formData as unknown as CreateParcelBody);
       setBodyData({
         ...bodyData,
@@ -65,7 +75,6 @@ const PlaceOrder: FC = () => {
       setToLocation(null);
     }
   };
-
   if (isLoading) return <Loader />;
 
   return (
@@ -78,9 +87,13 @@ const PlaceOrder: FC = () => {
         width: '100%',
       }}
     >
-      <h1 style={{ marginTop: theme.spacing(2) }}>Place order</h1>
+      <h1
+        style={{ marginTop: theme.spacing(3), marginBottom: theme.spacing(3) }}
+      >
+        Place order
+      </h1>
       <Box sx={{ width: '100%' }}>
-        <h2>About parcel</h2>
+        <h2 style={{ marginBottom: theme.spacing(3) }}>About parcel</h2>
         <TextField
           label="Description"
           variant="outlined"
@@ -88,7 +101,7 @@ const PlaceOrder: FC = () => {
           onChange={(e) => setBodyData({ ...bodyData, desc: e.target.value })}
           sx={{
             width: '100%',
-            marginTop: 2,
+            marginBottom: theme.spacing(2),
             background: theme.palette.background.paper,
           }}
         />
@@ -101,8 +114,7 @@ const PlaceOrder: FC = () => {
           }
           sx={{
             width: '100%',
-            marginTop: 2,
-            marginBottom: 2,
+            marginBottom: theme.spacing(2),
             background: theme.palette.background.paper,
           }}
         />
@@ -112,7 +124,7 @@ const PlaceOrder: FC = () => {
           width: '100%',
         }}
       >
-        <h2>Sender</h2>
+        <h2 style={{ marginBottom: theme.spacing(3) }}>Sender</h2>
         <TextField
           label="Sender name"
           variant="outlined"
@@ -125,14 +137,14 @@ const PlaceOrder: FC = () => {
           }
           sx={{
             width: '100%',
-            marginTop: 2,
-            marginBottom: 2,
+            marginBottom: theme.spacing(2),
             background: theme.palette.background.paper,
           }}
         />
-        <FromInput
-          setFromLocation={setFromLocation}
-          fromLocation={fromLocation}
+        <ToAddressInput
+          setRecipientAddress={setFromLocation}
+          label="Sender address"
+          placeholder="Type sender address"
         />
       </Box>
       <Box
@@ -144,7 +156,9 @@ const PlaceOrder: FC = () => {
           width: '100%',
         }}
       >
-        <h2 style={{ width: '100%' }}>Recipient</h2>
+        <h2 style={{ width: '100%', marginBottom: theme.spacing(3) }}>
+          Recipient
+        </h2>
         <TextField
           label="Recipient name"
           variant="outlined"
@@ -160,8 +174,7 @@ const PlaceOrder: FC = () => {
           }
           sx={{
             width: '100%',
-            marginTop: 2,
-            marginBottom: 2,
+            marginBottom: theme.spacing(2),
             background: theme.palette.background.paper,
           }}
         />
@@ -177,6 +190,7 @@ const PlaceOrder: FC = () => {
               },
             })
           }
+          containerStyle={{ marginBottom: theme.spacing(2) }}
           autocompleteSearch={true}
         />
         <ToAddressInput
@@ -189,7 +203,7 @@ const PlaceOrder: FC = () => {
           type="File"
           sx={{
             width: '100%',
-            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2),
             backgroundColor: theme.palette.primary.light,
           }}
           onChange={handleFileChange}
@@ -199,14 +213,13 @@ const PlaceOrder: FC = () => {
           variant="contained"
           sx={{
             backgroundColor: theme.palette.primary.main,
-            marginTop: theme.spacing(2),
           }}
         >
-          Create order
+          Create order A2A
         </Button>
       </Box>
     </Box>
   );
 };
 
-export { PlaceOrder };
+export { PlaceOrderA2A };

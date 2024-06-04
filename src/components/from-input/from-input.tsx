@@ -53,7 +53,7 @@ const FromInput: FC<FromInputProps> = ({ setFromLocation, fromLocation }) => {
       value={fromLocation ? fromLocation.address : bussinessLocations[0]}
       sx={{
         width: '100%',
-        marginBottom: theme.spacing(2),
+        // marginBottom: theme.spacing(2),
         background: theme.palette.background.paper,
       }}
       renderInput={(params) => <TextField {...params} label="From location" />}

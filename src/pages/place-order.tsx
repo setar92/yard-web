@@ -1,16 +1,22 @@
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Box } from '@mui/material';
 
 import { theme } from '../common/theme/theme';
 import {
   Header,
-  PlaceOrder,
+  PlaceOrderA2A,
+  PlaceOrderB2A,
   ToggleDeliveryType,
   ToggleSender,
 } from '../components';
+import { RootState } from '../store/store';
 
 const PlaceOrderPage: FC = () => {
+  const fromLocation = useSelector(
+    (state: RootState) => state.deliveryType.fromLocation,
+  );
   return (
     <Box
       sx={{
@@ -42,7 +48,7 @@ const PlaceOrderPage: FC = () => {
         >
           <ToggleDeliveryType />
           <ToggleSender />
-          <PlaceOrder />
+          {fromLocation === 'warehouse' ? <PlaceOrderB2A /> : <PlaceOrderA2A />}
         </Box>
         <Box
           sx={{

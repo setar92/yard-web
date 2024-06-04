@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 
 import { theme } from './../../common/theme/theme';
-// ToggleButton.tsx
 
 interface StyledButtonProps {
   $isActive?: boolean;
   $borderRadius?: 'left' | 'right';
 }
 
-// Define the styled components
 const StyledButton = styled.button<StyledButtonProps>`
   width: 100%;
   padding: ${theme.spacing(2)} ${theme.spacing(1)};

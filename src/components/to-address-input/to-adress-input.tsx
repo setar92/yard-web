@@ -61,6 +61,7 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
     <Box
       sx={{
         width: '100%',
+        marginBottom: theme.spacing(2),
       }}
     >
       <LoadScript
@@ -76,7 +77,6 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
             label={label}
             sx={{
               width: '100%',
-              marginTop: theme.spacing(2),
               background: theme.palette.background.paper,
             }}
           />
