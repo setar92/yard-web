@@ -1,22 +1,45 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Box } from '@mui/material';
 
+import { fetchParcelDetails } from './get-parcels-info';
 import { theme } from '../common/theme/theme';
+import { ParcelObject } from '../common/types';
 import {
   Header,
   PlaceOrderA2A,
   PlaceOrderB2A,
   ToggleDeliveryType,
   ToggleSender,
+  ParcelComponent,
 } from '../components';
+import { useGetParcelsListQuery } from '../store/parcels-api/parcels-api';
 import { RootState } from '../store/store';
 
 const PlaceOrderPage: FC = () => {
+  const [parcelsInfo, setParcelsInfo] = useState<ParcelObject[]>([]);
+
   const fromLocation = useSelector(
     (state: RootState) => state.deliveryType.fromLocation,
   );
+
+  const { isSuccess: getIdsSuccess, data: parcelIds } =
+    useGetParcelsListQuery();
+
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      if (parcelIds && parcelIds.length > 0) {
+        const results = await fetchParcelDetails(parcelIds);
+        setParcelsInfo(results);
+      }
+    };
+
+    fetchData();
+  }, [parcelIds]);
+
+  getIdsSuccess && console.log('parcelIds', parcelIds);
+
   return (
     <Box
       sx={{
@@ -39,7 +62,12 @@ const PlaceOrderPage: FC = () => {
             width: '30% ',
             backgroundColor: theme.palette.background.default,
           }}
-        ></Box>
+        >
+          {parcelsInfo &&
+            parcelsInfo.map((parcel) => (
+              <ParcelComponent key={parcel.id} parcel={parcel} />
+            ))}
+        </Box>
         <Box
           sx={{
             width: '40% ',

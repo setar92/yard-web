@@ -11,6 +11,7 @@ import { Loader } from '../../components';
 import {
   useSendSmsMutation,
   useVerifyCodeMutation,
+  useGetUserInfoQuery,
 } from '../../store/auth-yard-api/auth-yard-api';
 
 const PhoneNumberInputForm: React.FC = () => {
@@ -22,7 +23,8 @@ const PhoneNumberInputForm: React.FC = () => {
     verifyCode,
     { isLoading: CheckCodeLoading, isSuccess: CheckCodeSuccess },
   ] = useVerifyCodeMutation();
-
+  const { refetch } = useGetUserInfoQuery();
+  CheckCodeSuccess && refetch();
   const [smsCode, setSmsCode] = useState('');
 
   const handlePhoneNumberChange = (value: string): void => {

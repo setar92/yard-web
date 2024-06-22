@@ -1,23 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { StorageKey } from '../../common/enums';
+import { UserInfo } from '../../common/types';
 
 type AuthState = {
   token: string | null;
-  businessToken: string | null;
+  profile: UserInfo | null;
 };
 
 const initialState: AuthState = {
   token: localStorage.getItem(StorageKey.TOKEN) || null,
-  businessToken: localStorage.getItem(StorageKey.BUSINESSTOKEN) || null,
+  profile: localStorage.getItem(StorageKey.PROFILE)
+    ? (JSON.parse(
+        localStorage.getItem(StorageKey.PROFILE) as string,
+      ) as UserInfo)
+    : null,
 };
 interface setCredentialsAction {
   payload: { access_token: string };
   type: string;
 }
 
-interface setBusinesTokenAction {
-  payload: { business_token: string };
+interface setProfileTokenAction {
+  payload: { profile: UserInfo };
   type: string;
 }
 
@@ -29,9 +34,9 @@ const { reducer, actions } = createSlice({
       const { access_token } = action.payload;
       state.token = access_token;
     },
-    setBusinesToken: (state, action: setBusinesTokenAction) => {
-      const { business_token } = action.payload;
-      state.businessToken = business_token;
+    setProfileInfo: (state, action: setProfileTokenAction) => {
+      const { profile } = action.payload;
+      state.profile = profile;
     },
     logOut: (state, _) => {
       state.token = null;
@@ -39,5 +44,5 @@ const { reducer, actions } = createSlice({
   },
 });
 
-export const { setCredentials, logOut, setBusinesToken } = actions;
+export const { setCredentials, logOut, setProfileInfo } = actions;
 export { reducer };

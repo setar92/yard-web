@@ -1,10 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { StorageKey, UserAuthPaths } from '../../common/enums';
-import { CreateParcelBody, DataResponse, Locker } from '../../common/types';
-import { CreateParcelResponse } from '../../common/types/parcel';
+import {
+  CreateParcelBody,
+  DataResponse,
+  Locker,
+  UserInfo,
+} from '../../common/types';
+import { CreateParcelResponse } from '../../common/types/create-parcel';
+import { senderPutResponse } from '../../common/types/parcel-list';
 
-const businessToken = localStorage.getItem(StorageKey.BUSINESSTOKEN) || '';
+const userInfo = localStorage.getItem(StorageKey.PROFILE);
+const userInfoObject = userInfo ? (JSON.parse(userInfo) as UserInfo) : null;
+const businessToken = userInfoObject
+  ? userInfoObject.business.market.prod.token
+  : '';
 
 export const marketApi = createApi({
   reducerPath: 'market/api',
@@ -15,6 +25,7 @@ export const marketApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Parcels'],
   endpoints: (build) => ({
     createParcel: build.mutation<CreateParcelResponse, CreateParcelBody>({
       query: (parcel) => ({
@@ -30,6 +41,17 @@ export const marketApi = createApi({
       }),
       transformResponse: (response: DataResponse) => response.data,
     }),
+    senderPut: build.mutation<senderPutResponse, { parcelNumber: number }>({
+      query: ({ parcelNumber }) => ({
+        url: `/api/market/parcels/${parcelNumber}/sender-put`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Parcels'],
+    }),
   }),
 });
-export const { useGetLockersQuery, useCreateParcelMutation } = marketApi;
+export const {
+  useGetLockersQuery,
+  useCreateParcelMutation,
+  useSenderPutMutation,
+} = marketApi;

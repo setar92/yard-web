@@ -5,6 +5,7 @@ export { ToggleSender } from './toggle/toggle-sender';
 export { PlaceOrderB2A } from './place-order/place-order-b2a';
 export { PlaceOrderA2A } from './place-order/place-order-a2a';
 export { ToAddressInput } from './to-address-input/to-adress-input';
+export { ParcelComponent } from './parcel/parcel-component';
 export { PhoneNumberInput } from './phone-input/phone-input';
 export { ToggleDeliveryType } from './toggle/toggle-delivery-type';
 export { PhoneNumberInputForm } from './forms/log-in';

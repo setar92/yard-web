@@ -4,6 +4,7 @@ enum UserAuthPaths {
   GET_USER_INFO = 'api/my/profile',
   GET_LOCKERS_FROM = 'api/market/lockers-from',
   CREATE_PARCEL = 'api/market/parcels',
+  GET_PARCELS_LIST = 'api/my/parcels',
 }
 
 enum AccountType {

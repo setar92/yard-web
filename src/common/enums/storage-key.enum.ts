@@ -1,6 +1,6 @@
 enum StorageKey {
   TOKEN = 'token',
-  BUSINESSTOKEN = 'businessToken',
+  PROFILE = 'profile',
 }
 
 export { StorageKey };

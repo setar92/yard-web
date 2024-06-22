@@ -13,4 +13,6 @@ export type {
   AccountType,
 } from './auth';
 export type { UserRole, FromLocation } from './delivery-types';
-export type { CreateParcelBody } from './parcel';
+export type { CreateParcelBody } from './create-parcel';
+export type { ParcelObject } from './parcel-list';
+export type { ParcelStatus } from './parcel-list';
