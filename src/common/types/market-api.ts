@@ -12,20 +12,16 @@ interface DataResponse {
   data: Locker[];
 }
 
-interface GetUserInfoResponse {
-  data: {
-    phone: string;
-    email: string;
-    name: string;
-    lastname: string;
-  };
-}
-
 interface UserInfo {
   phone: string;
   email: string;
   name: string;
   lastname: string;
+  business: { market: { prod: { token: string } } };
+}
+
+interface GetUserInfoResponse {
+  data: UserInfo;
 }
 
 interface ToLocation {

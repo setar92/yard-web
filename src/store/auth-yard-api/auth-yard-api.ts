@@ -9,7 +9,7 @@ import {
   UserInfo,
   GetUserInfoResponse,
 } from '../../common/types';
-import { setCredentials } from '../auth/slice';
+import { setCredentials, setProfileInfo } from '../auth/slice';
 import { RootState } from '../store';
 
 export const authYARDApi = createApi({
@@ -39,7 +39,15 @@ export const authYARDApi = createApi({
       query: () => ({
         url: UserAuthPaths.GET_USER_INFO,
       }),
-      transformResponse: (response: GetUserInfoResponse) => response.data,
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        const profile = data;
+        dispatch(setProfileInfo({ profile }));
+        localStorage.setItem(StorageKey.PROFILE, JSON.stringify(profile));
+      },
+      transformResponse: (response: GetUserInfoResponse) => {
+        return response.data;
+      },
     }),
 
     verifyCode: builder.mutation<VerifyCodeResponse, VerifyCodeQuery>({

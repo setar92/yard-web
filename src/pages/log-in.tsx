@@ -12,7 +12,7 @@ const LogInPage: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh', // Adjust height as needed
+        height: '100vh',
       }}
     >
       <PhoneNumberInputForm />

@@ -24,14 +24,12 @@ const ToggleDeliveryType: React.FC = () => {
       <StyledButton
         $isActive={activeButton === 'warehouse'}
         onClick={habdleW2AButton}
-        $borderRadius="left"
       >
         Warehouse to address
       </StyledButton>
       <StyledButton
         $isActive={activeButton === 'address'}
         onClick={habdleA2AButton}
-        $borderRadius="right"
       >
         Address to Address
       </StyledButton>

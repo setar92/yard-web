@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
+import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Input, TextField } from '@mui/material';
 
@@ -10,7 +11,9 @@ import { useGetUserInfoQuery } from '../../store/auth-yard-api/auth-yard-api';
 import { useCreateParcelMutation } from '../../store/market-api/market-api';
 import { ToAddressInput } from '../to-address-input/to-adress-input';
 
-const PlaceOrder: FC = () => {
+const PlaceOrderB2A: FC = () => {
+  const navigate = useNavigate();
+
   const [fromLocation, setFromLocation] = useState<Locker>();
   const [parcelPhoto, setParcelPhoto] = useState<File>();
   const [toLocation, setToLocation] = useState<ToLocation | null>(null);
@@ -63,6 +66,7 @@ const PlaceOrder: FC = () => {
         mover: { comment: '' },
       });
       setToLocation(null);
+      navigate(0);
     }
   };
 
@@ -78,9 +82,13 @@ const PlaceOrder: FC = () => {
         width: '100%',
       }}
     >
-      <h1 style={{ marginTop: theme.spacing(2) }}>Place order</h1>
+      <h1
+        style={{ marginTop: theme.spacing(3), marginBottom: theme.spacing(3) }}
+      >
+        Place order
+      </h1>
       <Box sx={{ width: '100%' }}>
-        <h2>About parcel</h2>
+        <h2 style={{ marginBottom: theme.spacing(3) }}>About parcel</h2>
         <TextField
           label="Description"
           variant="outlined"
@@ -88,7 +96,7 @@ const PlaceOrder: FC = () => {
           onChange={(e) => setBodyData({ ...bodyData, desc: e.target.value })}
           sx={{
             width: '100%',
-            marginTop: 2,
+            marginBottom: theme.spacing(2),
             background: theme.palette.background.paper,
           }}
         />
@@ -101,8 +109,7 @@ const PlaceOrder: FC = () => {
           }
           sx={{
             width: '100%',
-            marginTop: 2,
-            marginBottom: 2,
+            marginBottom: theme.spacing(2),
             background: theme.palette.background.paper,
           }}
         />
@@ -112,7 +119,7 @@ const PlaceOrder: FC = () => {
           width: '100%',
         }}
       >
-        <h2>Sender</h2>
+        <h2 style={{ marginBottom: theme.spacing(3) }}>Sender</h2>
         <TextField
           label="Sender name"
           variant="outlined"
@@ -125,8 +132,7 @@ const PlaceOrder: FC = () => {
           }
           sx={{
             width: '100%',
-            marginTop: 2,
-            marginBottom: 2,
+            marginBottom: theme.spacing(2),
             background: theme.palette.background.paper,
           }}
         />
@@ -144,7 +150,15 @@ const PlaceOrder: FC = () => {
           width: '100%',
         }}
       >
-        <h2 style={{ width: '100%' }}>Recipient</h2>
+        <h2
+          style={{
+            width: '100%',
+            marginBottom: theme.spacing(3),
+            marginTop: theme.spacing(2),
+          }}
+        >
+          Recipient
+        </h2>
         <TextField
           label="Recipient name"
           variant="outlined"
@@ -160,8 +174,7 @@ const PlaceOrder: FC = () => {
           }
           sx={{
             width: '100%',
-            marginTop: 2,
-            marginBottom: 2,
+            marginBottom: theme.spacing(2),
             background: theme.palette.background.paper,
           }}
         />
@@ -177,6 +190,7 @@ const PlaceOrder: FC = () => {
               },
             })
           }
+          containerStyle={{ marginBottom: theme.spacing(2) }}
           autocompleteSearch={true}
         />
         <ToAddressInput
@@ -189,7 +203,7 @@ const PlaceOrder: FC = () => {
           type="File"
           sx={{
             width: '100%',
-            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(2),
             backgroundColor: theme.palette.primary.light,
           }}
           onChange={handleFileChange}
@@ -209,4 +223,4 @@ const PlaceOrder: FC = () => {
   );
 };
 
-export { PlaceOrder };
+export { PlaceOrderB2A };

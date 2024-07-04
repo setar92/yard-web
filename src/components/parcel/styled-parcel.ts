@@ -1,36 +1,36 @@
 import styled from 'styled-components';
 
-import { theme } from './../../common/theme/theme';
+import { theme } from '../../common/theme/theme';
 
-interface StyledButtonProps {
+interface StyledParcelProps {
   $isActive?: boolean;
 }
 
-const StyledButton = styled.button<StyledButtonProps>`
+const StyledButton = styled.button<StyledParcelProps>`
   width: 100%;
   padding: ${theme.spacing(2)} ${theme.spacing(1)};
   margin-top: ${theme.spacing(2)};
   margin-right: ${theme.spacing(2)};
   cursor: pointer;
-  font-size: ${theme.typography.h5.fontSize};
+  font-size: 18px;
   border: none;
   border-radius: ${theme.spacing(2)};
   background-color: ${({ $isActive }): string =>
     $isActive ? theme.palette.primary.main : theme.palette.primary.light};
   color: ${({ $isActive }): string =>
     $isActive ? theme.palette.primary.light : theme.palette.primary.main};
-  transition: background-color 0.5s;
+  transition: background-color 0.3s;
 
   @media (max-width: ${theme.breakpoints.values.md}px) {
     padding: ${theme.spacing(1)} ${theme.spacing(1)};
     margin-top: ${theme.spacing(1)};
     margin-right: ${theme.spacing(1)};
-    font-size: ${theme.typography.h6.fontSize};
+    font-size: 16px;
     border-radius: ${theme.spacing(1)};
   }
 
-  @media (max-width: ${theme.breakpoints.values.sm}px) {
-    font-size: ${theme.typography.caption.fontSize};
+  @media (max-width: ${theme.breakpoints.values.md}px) {
+    font-size: 16px;
   }
 `;
 

@@ -29,7 +29,6 @@ const ToggleSender: React.FC = () => {
       <StyledButton
         $isActive={activeButton === 'sender'}
         onClick={habdleUserIsSender}
-        $borderRadius="left"
       >
         I'm sender
       </StyledButton>
@@ -42,7 +41,6 @@ const ToggleSender: React.FC = () => {
       <StyledButton
         $isActive={activeButton === 'creator'}
         onClick={habdleUserIsCreator}
-        $borderRadius="right"
       >
         I'm creator
       </StyledButton>
