@@ -40,6 +40,8 @@ const { reducer, actions } = createSlice({
     },
     logOut: (state, _) => {
       state.token = null;
+      state.profile = null;
+      localStorage.clear();
     },
   },
 });

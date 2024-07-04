@@ -24,8 +24,7 @@ const PlaceOrderPage: FC = () => {
     (state: RootState) => state.deliveryType.fromLocation,
   );
 
-  const { isSuccess: getIdsSuccess, data: parcelIds } =
-    useGetParcelsListQuery();
+  const { data: parcelIds } = useGetParcelsListQuery();
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -38,8 +37,6 @@ const PlaceOrderPage: FC = () => {
     fetchData();
   }, [parcelIds]);
 
-  getIdsSuccess && console.log('parcelIds', parcelIds);
-
   return (
     <Box
       sx={{
@@ -51,7 +48,6 @@ const PlaceOrderPage: FC = () => {
       <Header />
       <Box
         sx={{
-          // height: '90%',
           width: '100% ',
           backgroundColor: theme.palette.background.default,
           display: 'flex',

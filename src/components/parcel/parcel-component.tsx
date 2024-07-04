@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 
@@ -13,10 +14,12 @@ interface ParcelComponentProps {
 }
 
 const ParcelComponent: React.FC<ParcelComponentProps> = ({ parcel }) => {
+  const navigate = useNavigate();
   const [senderPut] = useSenderPutMutation();
   const handlePutButton = async (): Promise<void> => {
     try {
       await senderPut({ parcelNumber: parcel.number });
+      navigate(0);
     } catch (error) {
       console.error('Error sending data:', error);
     }

@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
+import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Input, TextField } from '@mui/material';
 
@@ -11,6 +12,8 @@ import { useCreateParcelMutation } from '../../store/market-api/market-api';
 import { ToAddressInput } from '../to-address-input/to-adress-input';
 
 const PlaceOrderA2A: FC = () => {
+  const navigate = useNavigate();
+
   const [fromLocation, setFromLocation] = useState<ToLocation | null>(null);
   const [parcelPhoto, setParcelPhoto] = useState<File>();
   const [toLocation, setToLocation] = useState<ToLocation | null>(null);
@@ -42,7 +45,7 @@ const PlaceOrderA2A: FC = () => {
     const file = event.target.files?.[0];
     setParcelPhoto(file);
   };
-  const fillCreateParcelBody = (): void => {
+  const fillCreateParcelBody = async (): Promise<void> => {
     if (fromLocation && userInfo && toLocation && bodyData.desc) {
       const formData = new FormData();
       parcelPhoto && formData.append('photo_sender', parcelPhoto);
@@ -65,7 +68,7 @@ const PlaceOrderA2A: FC = () => {
       formData.append('desc', bodyData.desc);
       formData.append('mover[comment]', bodyData.mover?.comment as string);
 
-      createParcel(formData as unknown as CreateParcelBody);
+      await createParcel(formData as unknown as CreateParcelBody);
       setBodyData({
         ...bodyData,
         recipient: { name: '', phone: '+371' },
@@ -73,6 +76,7 @@ const PlaceOrderA2A: FC = () => {
         mover: { comment: '' },
       });
       setToLocation(null);
+      navigate(0);
     }
   };
   if (isLoading) return <Loader />;

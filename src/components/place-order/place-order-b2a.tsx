@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
+import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Input, TextField } from '@mui/material';
 
@@ -11,6 +12,8 @@ import { useCreateParcelMutation } from '../../store/market-api/market-api';
 import { ToAddressInput } from '../to-address-input/to-adress-input';
 
 const PlaceOrderB2A: FC = () => {
+  const navigate = useNavigate();
+
   const [fromLocation, setFromLocation] = useState<Locker>();
   const [parcelPhoto, setParcelPhoto] = useState<File>();
   const [toLocation, setToLocation] = useState<ToLocation | null>(null);
@@ -63,6 +66,7 @@ const PlaceOrderB2A: FC = () => {
         mover: { comment: '' },
       });
       setToLocation(null);
+      navigate(0);
     }
   };
 
