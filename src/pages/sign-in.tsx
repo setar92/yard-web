@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 
 import { PhoneNumberInputForm } from '../components';
 
-const LogInPage: React.FC = () => {
+const SignInPage: React.FC = () => {
   return (
     <Box
       sx={{
@@ -20,4 +20,4 @@ const LogInPage: React.FC = () => {
   );
 };
 
-export { LogInPage };
+export { SignInPage };

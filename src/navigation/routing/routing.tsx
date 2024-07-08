@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AppRoute } from '../../common/enums';
-import { PlaceOrderPage, LogInPage } from '../../pages';
+import { PlaceOrderPage, SignInPage } from '../../pages';
 import { RootState } from '../../store/store';
 import { ProtectedRoute } from '../protected-route/protected-route';
 const Routing: FC = () => {
@@ -15,7 +15,7 @@ const Routing: FC = () => {
         <Route element={<ProtectedRoute isAllowed={!!token} />}>
           <Route path={AppRoute.ROOT} element={<PlaceOrderPage />} />
         </Route>
-        <Route path={AppRoute.SIGN_IN} element={<LogInPage />} />
+        <Route path={AppRoute.SIGN_IN} element={<SignInPage />} />
       </Routes>
     </BrowserRouter>
   );

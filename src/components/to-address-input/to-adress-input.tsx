@@ -1,11 +1,7 @@
 import React, { Dispatch, SetStateAction, useRef } from 'react';
 
 import { Box, TextField } from '@mui/material'; // Імпорт компонентів з Material-UI
-import {
-  Libraries,
-  LoadScript,
-  StandaloneSearchBox,
-} from '@react-google-maps/api';
+import { StandaloneSearchBox } from '@react-google-maps/api';
 
 import { theme } from '../../common/theme/theme';
 import { ToLocation } from '../../common/types';
@@ -16,18 +12,17 @@ interface AddressInputProps {
   placeholder: string;
 }
 
-const GOOGLE_MAPS_LIBRARIES = ['places'] as Libraries;
-
 const ToAddressInput: React.FC<AddressInputProps> = ({
   setRecipientAddress,
   label,
   placeholder,
 }) => {
-  const inputRef = useRef<google.maps.places.SearchBox>();
+  const inputRef = useRef<google.maps.places.SearchBox | null>(null);
+
   const handlePlaceChanged = (): void => {
     if (inputRef.current) {
       const place = inputRef.current.getPlaces();
-      if (place) {
+      if (place && place.length > 0) {
         const placeInfo = place[0].address_components;
         const postalCode = placeInfo?.find((place) =>
           place.types.includes('postal_code'),
@@ -44,15 +39,15 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
         const lat = place[0].geometry?.location?.lat();
         const lng = place[0].geometry?.location?.lng();
 
-        const toLoaction: ToLocation = {
-          to_apartment: streetNumber?.long_name as string,
-          to_city: cityName?.long_name as string,
-          to_street: streetName?.long_name as string,
-          to_zip: postalCode?.long_name as string,
+        const toLocation: ToLocation = {
+          to_apartment: streetNumber?.long_name || '',
+          to_city: cityName?.long_name || '',
+          to_street: streetName?.long_name || '',
+          to_zip: postalCode?.long_name || '',
           to_lat: String(lat),
           to_lng: String(lng),
         };
-        setRecipientAddress(toLoaction);
+        setRecipientAddress(toLocation);
       }
     }
   };
@@ -64,24 +59,19 @@ const ToAddressInput: React.FC<AddressInputProps> = ({
         marginBottom: theme.spacing(2),
       }}
     >
-      <LoadScript
-        googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string}
-        libraries={GOOGLE_MAPS_LIBRARIES}
+      <StandaloneSearchBox
+        onLoad={(ref) => (inputRef.current = ref)}
+        onPlacesChanged={handlePlaceChanged}
       >
-        <StandaloneSearchBox
-          onLoad={(ref) => (inputRef.current = ref)}
-          onPlacesChanged={handlePlaceChanged}
-        >
-          <TextField
-            placeholder={placeholder}
-            label={label}
-            sx={{
-              width: '100%',
-              background: theme.palette.background.paper,
-            }}
-          />
-        </StandaloneSearchBox>
-      </LoadScript>
+        <TextField
+          placeholder={placeholder}
+          label={label}
+          sx={{
+            width: '100%',
+            background: theme.palette.background.paper,
+          }}
+        />
+      </StandaloneSearchBox>
     </Box>
   );
 };

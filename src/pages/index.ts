@@ -1,2 +1,2 @@
 export { PlaceOrderPage } from './place-order';
-export { LogInPage } from './log-in';
+export { SignInPage } from './sign-in';

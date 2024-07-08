@@ -1,27 +1,22 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { StorageKey, UserAuthPaths } from '../../common/enums';
-import {
-  CreateParcelBody,
-  DataResponse,
-  Locker,
-  UserInfo,
-} from '../../common/types';
+import { UserAuthPaths } from '../../common/enums';
+import { CreateParcelBody, DataResponse, Locker } from '../../common/types';
 import { CreateParcelResponse } from '../../common/types/create-parcel';
 import { senderPutResponse } from '../../common/types/parcel-list';
-
-const userInfo = localStorage.getItem(StorageKey.PROFILE);
-const userInfoObject = userInfo ? (JSON.parse(userInfo) as UserInfo) : null;
-const businessToken = userInfoObject
-  ? userInfoObject.business.market.prod.token
-  : '';
+import { RootState } from '../store';
 
 export const marketApi = createApi({
   reducerPath: 'market/api',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.REACT_APP_MARKET_URL}`,
-    prepareHeaders: (headers) => {
-      headers.set('Market-Token', businessToken);
+
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth.profile?.business.market.prod
+        .token;
+      if (token) {
+        headers.set('Market-Token', token);
+      }
       return headers;
     },
   }),
