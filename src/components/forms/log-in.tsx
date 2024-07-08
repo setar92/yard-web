@@ -18,13 +18,12 @@ const PhoneNumberInputForm: React.FC = () => {
   const location = useLocation();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(true);
-  const [sendSms, { isLoading, isSuccess }] = useSendSmsMutation();
+  const [sendSms, { isLoading: sendSmsLoading, isSuccess: sendSmsSuccess }] =
+    useSendSmsMutation();
   const [
     verifyCode,
-    { isLoading: CheckCodeLoading, isSuccess: CheckCodeSuccess },
+    { isLoading: verifyCodeLoading, isSuccess: verifyCodeSuccess },
   ] = useVerifyCodeMutation();
-  const { refetch } = useGetUserInfoQuery();
-  CheckCodeSuccess && refetch();
   const [smsCode, setSmsCode] = useState('');
 
   const handlePhoneNumberChange = (value: string): void => {
@@ -66,17 +65,22 @@ const PhoneNumberInputForm: React.FC = () => {
     });
   };
 
-  if (isLoading || CheckCodeLoading) {
+  // Conditionally fetch user info based on verification success
+  const { data: userInfo } = useGetUserInfoQuery(undefined, {
+    skip: !verifyCodeSuccess,
+  });
+
+  if (sendSmsLoading || verifyCodeLoading) {
     return <Loader />;
   }
 
-  if (CheckCodeSuccess) {
+  if (verifyCodeSuccess && userInfo) {
     return <Navigate to={AppRoute.ROOT} replace state={{ from: location }} />;
   }
 
   return (
     <form onSubmit={handleSubmit} style={{ width: '300px' }}>
-      {isSuccess ? (
+      {sendSmsSuccess ? (
         <>
           <h2 style={{ marginBottom: '10px' }}>Enter code:</h2>
           <TextField

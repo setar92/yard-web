@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 
 import { Box } from '@mui/material';
 
-import { fetchParcelDetails } from './get-parcels-info';
 import { theme } from '../common/theme/theme';
 import { ParcelObject } from '../common/types';
 import {
@@ -13,12 +12,16 @@ import {
   ToggleDeliveryType,
   ToggleSender,
   ParcelComponent,
+  Loader,
 } from '../components';
+import { fetchParcelDetails } from '../helpers/get-parcels-info';
+import { useGetUserInfoQuery } from '../store/auth-yard-api/auth-yard-api';
 import { useGetParcelsListQuery } from '../store/parcels-api/parcels-api';
 import { RootState } from '../store/store';
 
 const PlaceOrderPage: FC = () => {
   const [parcelsInfo, setParcelsInfo] = useState<ParcelObject[]>([]);
+  const { isSuccess } = useGetUserInfoQuery();
 
   const fromLocation = useSelector(
     (state: RootState) => state.deliveryType.fromLocation,
@@ -36,6 +39,10 @@ const PlaceOrderPage: FC = () => {
 
     fetchData();
   }, [parcelIds]);
+
+  if (!isSuccess) {
+    return <Loader />;
+  }
 
   return (
     <Box

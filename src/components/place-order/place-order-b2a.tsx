@@ -41,7 +41,7 @@ const PlaceOrderB2A: FC = () => {
     const file = event.target.files?.[0];
     setParcelPhoto(file);
   };
-  const fillCreateParcelBody = (): void => {
+  const fillCreateParcelBody = async (): Promise<void> => {
     if (fromLocation && userInfo && toLocation && bodyData.desc) {
       const formData = new FormData();
       parcelPhoto && formData.append('photo_sender', parcelPhoto);
@@ -58,7 +58,7 @@ const PlaceOrderB2A: FC = () => {
       formData.append('recipient[phone]', bodyData.recipient.phone);
       formData.append('desc', bodyData.desc);
       formData.append('mover[comment]', bodyData.mover?.comment as string);
-      createParcel(formData as unknown as CreateParcelBody);
+      await createParcel(formData as unknown as CreateParcelBody);
       setBodyData({
         ...bodyData,
         recipient: { name: '', phone: '+371' },
