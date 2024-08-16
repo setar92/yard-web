@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Input, TextField } from '@mui/material';
@@ -9,9 +10,14 @@ import { theme } from '../../common/theme/theme';
 import { ToLocation, CreateParcelBody } from '../../common/types';
 import { useGetUserInfoQuery } from '../../store/auth-yard-api/auth-yard-api';
 import { useCreateParcelMutation } from '../../store/market-api/market-api';
+import { RootState } from '../../store/store';
 import { ToAddressInput } from '../to-address-input/to-adress-input';
 
 const PlaceOrderA2A: FC = () => {
+  const token = useSelector((state: RootState) => state.auth.token);
+  const userRole = useSelector(
+    (state: RootState) => state.deliveryType.userRole,
+  );
   const navigate = useNavigate();
 
   const [fromLocation, setFromLocation] = useState<ToLocation | null>(null);
@@ -24,18 +30,34 @@ const PlaceOrderA2A: FC = () => {
     mover: { comment: '' },
   });
 
-  const { isLoading, data: userInfo } = useGetUserInfoQuery();
+  const { data: userInfo, isLoading } = useGetUserInfoQuery(undefined, {
+    skip: !token,
+  });
   const [createParcel, { isError }] = useCreateParcelMutation();
 
   useEffect(() => {
     if (userInfo) {
-      const sender = {
+      const user = {
         name: `${userInfo.name} ${userInfo.lastname}`,
         phone: userInfo.phone,
       };
-      setBodyData({ ...bodyData, sender });
+      const userEmpty = {
+        name: '',
+        phone: '',
+      };
+      switch (userRole) {
+        case 'sender':
+          setBodyData({ ...bodyData, sender: user, recipient: userEmpty });
+          break;
+        case 'recipier':
+          setBodyData({ ...bodyData, sender: userEmpty, recipient: user });
+          break;
+        case 'creator':
+          setBodyData({ ...bodyData, sender: userEmpty, recipient: userEmpty });
+          break;
+      }
     }
-  }, [userInfo]);
+  }, [userRole, userInfo]);
 
   useEffect(() => {
     isError && alert('some error, parcel is not registered');

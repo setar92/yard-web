@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Input, TextField } from '@mui/material';
@@ -9,10 +10,14 @@ import { theme } from '../../common/theme/theme';
 import { Locker, ToLocation, CreateParcelBody } from '../../common/types';
 import { useGetUserInfoQuery } from '../../store/auth-yard-api/auth-yard-api';
 import { useCreateParcelMutation } from '../../store/market-api/market-api';
+import { RootState } from '../../store/store';
 import { ToAddressInput } from '../to-address-input/to-adress-input';
 
 const PlaceOrderB2A: FC = () => {
   const navigate = useNavigate();
+  const userRole = useSelector(
+    (state: RootState) => state.deliveryType.userRole,
+  );
 
   const [fromLocation, setFromLocation] = useState<Locker>();
   const [parcelPhoto, setParcelPhoto] = useState<File>();
@@ -29,13 +34,27 @@ const PlaceOrderB2A: FC = () => {
 
   useEffect(() => {
     if (userInfo) {
-      const sender = {
+      const user = {
         name: `${userInfo.name} ${userInfo.lastname}`,
         phone: userInfo.phone,
       };
-      setBodyData({ ...bodyData, sender });
+      const userEmpty = {
+        name: '',
+        phone: '',
+      };
+      switch (userRole) {
+        case 'sender':
+          setBodyData({ ...bodyData, sender: user, recipient: userEmpty });
+          break;
+        case 'recipier':
+          setBodyData({ ...bodyData, sender: userEmpty, recipient: user });
+          break;
+        case 'creator':
+          setBodyData({ ...bodyData, sender: userEmpty, recipient: userEmpty });
+          break;
+      }
     }
-  }, [userInfo]);
+  }, [userRole, userInfo]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const file = event.target.files?.[0];

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Box } from '@mui/material';
 
 import { StyledButton } from './log-out/styled-button.styles';
+import logo from '../../assets/images/LOGO.png';
 import { theme } from '../../common/theme/theme';
 import { logOut } from '../../store/auth/slice';
 
@@ -27,7 +28,20 @@ const Header: FC = () => {
       <Box
         sx={{
           display: 'flex',
-          width: '70%',
+          width: '20%',
+          paddingLeft: theme.spacing(2),
+        }}
+      >
+        <img
+          src={logo}
+          alt="Logo"
+          style={{ maxWidth: '30%', maxHeight: '30%' }}
+        />
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          width: '50%',
         }}
       ></Box>
       <Box
