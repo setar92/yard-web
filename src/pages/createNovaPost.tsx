@@ -11,7 +11,7 @@ const sendRequest = async (parcel: unknown): Promise<void> => {
       parcel,
       {
         headers: {
-          'Market-Token': 'prod_550a58f1-851c-47ce-ae30-45119dd68e96',
+          'Market-Token': '',
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
