@@ -1,4 +1,5 @@
 import React from 'react';
+import { MdDeleteForever } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
@@ -13,6 +14,11 @@ interface ParcelComponentProps {
   parcel: ParcelObject;
 }
 
+const IconStyle = {
+  fontSize: '36px', // Змінити розмір іконки
+  cursor: 'pointer', // Змінити курсор при наведенні
+};
+
 const ParcelComponent: React.FC<ParcelComponentProps> = ({ parcel }) => {
   const navigate = useNavigate();
   const [senderPut] = useSenderPutMutation();
@@ -23,6 +29,10 @@ const ParcelComponent: React.FC<ParcelComponentProps> = ({ parcel }) => {
     } catch (error) {
       console.error('Error sending data:', error);
     }
+  };
+
+  const handleClick = (): void => {
+    console.log('Icon clicked!');
   };
   return (
     <Box
@@ -35,6 +45,7 @@ const ParcelComponent: React.FC<ParcelComponentProps> = ({ parcel }) => {
         padding: theme.spacing(2),
       }}
     >
+      <MdDeleteForever style={IconStyle} onClick={handleClick} />
       <Box
         sx={{
           display: 'flex',

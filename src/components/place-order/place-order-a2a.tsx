@@ -15,6 +15,9 @@ import { ToAddressInput } from '../to-address-input/to-adress-input';
 
 const PlaceOrderA2A: FC = () => {
   const token = useSelector((state: RootState) => state.auth.token);
+  const userRole = useSelector(
+    (state: RootState) => state.deliveryType.userRole,
+  );
   const navigate = useNavigate();
 
   const [fromLocation, setFromLocation] = useState<ToLocation | null>(null);
@@ -34,13 +37,27 @@ const PlaceOrderA2A: FC = () => {
 
   useEffect(() => {
     if (userInfo) {
-      const sender = {
+      const user = {
         name: `${userInfo.name} ${userInfo.lastname}`,
         phone: userInfo.phone,
       };
-      setBodyData({ ...bodyData, sender });
+      const userEmpty = {
+        name: '',
+        phone: '',
+      };
+      switch (userRole) {
+        case 'sender':
+          setBodyData({ ...bodyData, sender: user, recipient: userEmpty });
+          break;
+        case 'recipier':
+          setBodyData({ ...bodyData, sender: userEmpty, recipient: user });
+          break;
+        case 'creator':
+          setBodyData({ ...bodyData, sender: userEmpty, recipient: userEmpty });
+          break;
+      }
     }
-  }, [userInfo]);
+  }, [userRole, userInfo]);
 
   useEffect(() => {
     isError && alert('some error, parcel is not registered');

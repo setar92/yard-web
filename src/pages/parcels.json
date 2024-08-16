@@ -1,0 +1,268 @@
+[
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "4",
+        "to_city": "Riga",
+        "to_street": "Artilērijas Iela, 17",
+        "to_zip": "1001",
+        "recipient": {
+            "name": "Hryb Alina",
+            "phone": "+37125392344"
+        },
+        "desc": "SH0666",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": ".",
+        "to_city": "Riga",
+        "to_street": "Balasta Dambis, 15",
+        "to_zip": "1048",
+        "recipient": {
+            "name": "Kozyuberda Tetyana",
+            "phone": "+37128336082"
+        },
+        "desc": "SH9450",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "105",
+        "to_city": "Riga",
+        "to_street": "Rumbulas Iela, 7",
+        "to_zip": "1035",
+        "recipient": {
+            "name": "Fedutenko Evelina",
+            "phone": "+37127818480"
+        },
+        "desc": "SH2788",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "105",
+        "to_city": "Riga",
+        "to_street": "Rumbulas Iela, 7",
+        "to_zip": "1035",
+        "recipient": {
+            "name": "Fedutenko Anastasiia",
+            "phone": "+37126310246"
+        },
+        "desc": "SH9355",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "141",
+        "to_city": "Riga",
+        "to_street": "Gunāra Astras Iela, 8",
+        "to_zip": "1082",
+        "recipient": {
+            "name": "Datsiuk Alvina",
+            "phone": "+37129229110"
+        },
+        "desc": "SH8738",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "46",
+        "to_city": "Riga",
+        "to_street": "Sliežu Iela, 9A",
+        "to_zip": "1005",
+        "recipient": {
+            "name": "Popova Natalia",
+            "phone": "+37128169548"
+        },
+        "desc": "SH9179",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "7",
+        "to_city": "Riga",
+        "to_street": "Lielvārdes iela, 105",
+        "to_zip": "1084",
+        "recipient": {
+            "name": "Chelpanova Kateryna",
+            "phone": "+37127340783"
+        },
+        "desc": "SH4049",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "16",
+        "to_city": "Riga",
+        "to_street": "Zvārdes Iela, 4A",
+        "to_zip": "1004",
+        "recipient": {
+            "name": "Hrushko Oryna",
+            "phone": "+37128012088"
+        },
+        "desc": "SH5295",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "43",
+        "to_city": "Riga",
+        "to_street": "Kandavas Iela, 8 k-8",
+        "to_zip": "1083",
+        "recipient": {
+            "name": "Makarenko Nataliia",
+            "phone": "+37129401971"
+        },
+        "desc": "SH0961",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "37",
+        "to_city": "Riga",
+        "to_street": "Vecā Jūrmalas Gatve, 7",
+        "to_zip": "1083",
+        "recipient": {
+            "name": "Dumynska Tetiana",
+            "phone": "+37126319464"
+        },
+        "desc": "SH8528",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "54",
+        "to_city": "Riga",
+        "to_street": "Ezera Iela, 18",
+        "to_zip": "1034",
+        "recipient": {
+            "name": "Babii Denys",
+            "phone": "+37120205363"
+        },
+        "desc": "SH1707",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "34",
+        "to_city": "Riga",
+        "to_street": "Juglas Iela, 3",
+        "to_zip": "1024",
+        "recipient": {
+            "name": "Nortsova Olena",
+            "phone": "+37126314553"
+        },
+        "desc": "SH3623",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "17",
+        "to_city": "Riga",
+        "to_street": "Gravas Iela, 17",
+        "to_zip": "1057",
+        "recipient": {
+            "name": "Liubytska Olha",
+            "phone": "+37122402988"
+        },
+        "desc": "SH5679",
+        "mover": {
+            "comment": ""
+        }
+    },
+    {
+        "from_id": "9b9d8102-a2d8-4838-b32a-ab98bdccf2bd",
+        "sender": {
+            "name": "Yaroslav Fedoruk",
+            "phone": "+37127903787"
+        },
+        "to_apartment": "101",
+        "to_city": "Riga",
+        "to_street": "Plēksnes Iela, 8",
+        "to_zip": "1016",
+        "recipient": {
+            "name": "Bruvere Daria",
+            "phone": "+37122506585"
+        },
+        "desc": "SH5648",
+        "mover": {
+            "comment": ""
+        }
+    }
+]
